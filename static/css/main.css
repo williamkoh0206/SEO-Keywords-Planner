@@ -1,0 +1,37 @@
+/*Homepage*/
+.intro-section{
+    background: linear-gradient(to right, rgb(67 233 128), rgb(123 201 239));
+}
+@media(min-width:1200px){
+.container{
+    max-width:960px;
+    }
+}
+
+.search-bar-section .form-outline .form-control{
+    background:white;
+}
+
+/*Header */
+.nav-link:focus{
+    color:white;
+}
+.nav-link{
+    transition: none;
+    color:#0d6efd;
+}
+.menu .active{
+    color:white;
+    background-color: #0d6efd;
+    border-radius: 18px;
+}
+/*Sign up & Login page*/
+.signup-btn,.login-btn{
+    width:60%;
+    margin:0 auto;
+}
+.login-card{
+    display: inline-block;
+    width: 50%;
+}
+
