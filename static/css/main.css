@@ -34,4 +34,6 @@
     display: inline-block;
     width: 50%;
 }
-
+.keyword_result{
+    color:#0d6efd;
+}

@@ -11,16 +11,32 @@
           <input
             id="search-focus"
             type="search"
-            id="form1"
-            class="form-control"
+            class="form-control" 
           />
           <label class="form-label" for="form1">Search</label>
         </div>
-        <button type="button" class="btn btn-primary">
+        <select id="data_type" name="trend_list" form="trend_form">
+          <option value="GEO_MAP_0">By Region</option>
+          <option value="RELATED_QUERIES">Releated queries</option>
+          <option value="RELATED_TOPICS">Releated topics</option>
+        </select> 
+        <button type="button" class="btn btn-primary ml-2" id="searchBtn">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </div>
   </div>
+</div>
+<div class="container mt-4">
+  <h3 id="keywordValue" class="keyword_result"></h3>
+  <table id="searchResultsTable" class="table">
+    <thead>
+      <tr>
+        <th id="col-1"></th>
+        <th id="col-2"></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 </div>
 {% endblock %}

@@ -1,9 +1,10 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
+from serp_api import fetch_data
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -40,6 +41,13 @@ class LoginForm(FlaskForm):
 @app.route("/")
 def home():
     return render_template('home.html', active_page='home')
+
+@app.route('/search',methods=['GET'])
+def fetch_search_data():
+    keyword = request.args.get("keyword")
+    type = request.args.get("type")
+    data_list = fetch_data(keyword,type)
+    return jsonify(data_list)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

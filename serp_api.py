@@ -1,22 +1,54 @@
 from serpapi.google_search import GoogleSearch
 
-keyword = "youtube"
+# keyword = "youtube"
+# type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
+# key = ["interest_by_region","related_queries","related_topics"] 
 '''
 [0]: Type: GEO_MAP_0 | interest_by_region
 [1]: Type: RELATED_QUERIES | related_queries
 [2]: Type: RELATED_TOPICS | related_topics
 '''
-type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
-key = ["interest_by_region","related_queries","related_topics"] 
-params = {
-    "engine": "google_trends",
-    "q": keyword,
-    "data_type": type[2],
-    "api_key": "3d66e3d130aa6d290fd34915f7ec82fb77a8942ee8a4d5d2756b7b710f03f483"
-}
-search = GoogleSearch(params)
-results = search.get_dict()
-data_list = results[key[2]] 
+def fetch_data(keyword,type):
+    #type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
+    #key = ["interest_by_region","related_queries","related_topics"] 
+    params = {
+        "engine": "google_trends",
+        "q": keyword,
+        "data_type": type,
+        "api_key": "3d66e3d130aa6d290fd34915f7ec82fb77a8942ee8a4d5d2756b7b710f03f483"
+    }
+    key = ''
+    if type == 'GEO_MAP_0':
+        key = "interest_by_region"
+    elif type == 'RELATED_QUERIES':
+        key = "related_queries"
+    elif type == 'RELATED_TOPICS':
+        key = "related_topics"
+
+    search = GoogleSearch(params)
+    results = search.get_dict()
+    print(results)
+    data_list = []
+    if key in results:
+        if type == "GEO_MAP_0":
+            data_list = results[key]
+        elif type == "RELATED_QUERIES":
+            for item in results[key]["top"]:
+                query = {
+                    "queries_title": item["query"],
+                    "queries_value": item["value"]
+                }
+                data_list.append(query)    
+        elif type == "RELATED_TOPICS":
+            for item in results[key]["top"]:
+                topic = {
+                    "title": item["topic"]["title"],
+                    "value": item["value"]
+                }
+                print(topic)
+                data_list.append(topic)
+    return data_list
+__all__ = ['fetch_data']
 #Each time print = call once api for once (Free: 100 tokens)
 #print(data_list)
 
