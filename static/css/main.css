@@ -37,3 +37,10 @@
 .keyword_result{
     color:#0d6efd;
 }
+/*Result table*/
+.searchResultColumn{
+    display: none;
+}
+#col-1,#col-2{
+    font-size: 20px;
+}
