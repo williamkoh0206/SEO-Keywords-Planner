@@ -16,9 +16,9 @@
           <label class="form-label" for="form1">Search</label>
         </div>
         <select id="data_type" name="trend_list" form="trend_form">
-          <option value="GEO_MAP_0">By Region</option>
-          <option value="RELATED_QUERIES">Releated queries</option>
-          <option value="RELATED_TOPICS">Releated topics</option>
+          <option value="GEO_MAP_0">Region</option>
+          <option value="RELATED_QUERIES">Queries</option>
+          <option value="RELATED_TOPICS">Topics</option>
         </select> 
         <button type="button" class="btn btn-primary ml-2" id="searchBtn">
           <i class="fas fa-search"></i>
@@ -27,11 +27,14 @@
     </div>
   </div>
 </div>
+<div class="d-flex justify-content-center d-none" id="loadingEffect">
+  <div class="spinner-border text-primary" role="status"> </div>
+</div>
 <div class="container mt-4">
   <h3 id="keywordValue" class="keyword_result"></h3>
-  <table id="searchResultsTable" class="table">
+  <table id="searchResultsTable" class="table table-striped">
     <thead>
-      <tr>
+      <tr class="searchResultColumn">
         <th id="col-1"></th>
         <th id="col-2"></th>
       </tr>
