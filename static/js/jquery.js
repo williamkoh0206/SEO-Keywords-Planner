@@ -5,18 +5,18 @@ $(function () {
     $(this).addClass("active");
   });
 
-  $('#search-focus').on("keypress",function(event){
-    if(event.key === "Enter"){
-      $("#searchBtn").click(); 
+  $("#search-focus").on("keypress", function (event) {
+    if (event.key === "Enter") {
+      $("#searchBtn").click();
     }
-  })
+  });
   $("#searchBtn").on("click", function () {
     const inputString = $("#search-focus").val();
     const selectType = $("#data_type").val();
-    const column1 = $('#col-1');
-    const column2 = $('#col-2');
-    const column3 = $('#col-3');
-    const headerColumn = $('#searchResultsTable tr');
+    const column1 = $("#col-1");
+    const column2 = $("#col-2");
+    const column3 = $("#col-3");
+    const headerColumn = $("#searchResultsTable tr");
     console.log(inputString);
 
     $.ajax({
@@ -29,35 +29,39 @@ $(function () {
       },
       success: function (response) {
         displayResults(response);
-          const originalText = "Keyword results for";
-          $("#keywordValue").text(originalText + " " + inputString);
-          headerColumn.removeClass()
-          $("#searchResultsTable").show();
-        if (Object.prototype.hasOwnProperty.call(response, 'error_message')){
-          $('#searchResultsTable').hide();
+        const originalText = "Keyword results for";
+        $("#keywordValue").text(originalText + " " + inputString);
+        headerColumn.removeClass();
+        $("#searchResultsTable").show();
+        if (Object.prototype.hasOwnProperty.call(response, "error_message")) {
+          $("#searchResultsTable").hide();
           var errorMessage = response.error_message;
-          var alertHtml = '<div class="alert alert-warning" role="alert"><p class="text-center my-2">' + errorMessage + '</p></div>';
-          if(!$('.alert').length){
-            $('#searchResultsTable').after(alertHtml);
+          var alertHtml =
+            '<div class="alert alert-warning" role="alert"><p class="text-center my-2">' +
+            errorMessage +
+            "</p></div>";
+          if ($("#searchResultsTable").next(".alert").length === 0) {
+            $("#searchResultsTable").after(alertHtml);
+            console.log($("#searchResultsTable").next(".alert").length)
+          } else if($("#searchResultsTable").next(".alert").length >0) {
+            console.log("being hidden");
+            $("#searchResultsTable").next(".alert").hide();
           }
-        }
-        else{
+        } else {
           displayResults(response);
           const originalText = "Keyword results for";
           $("#keywordValue").text(originalText + " " + inputString);
-          headerColumn.removeClass()
+          headerColumn.removeClass();
           $("#searchResultsTable").show();
-          if (selectType == 'GEO_MAP_0'){
+          if (selectType == "GEO_MAP_0") {
             column1.text("Continent(short-form)");
             column2.text("Value(%)");
             column3.text("Location").show();
-          }
-          else if(selectType == 'RELATED_QUERIES'){
+          } else if (selectType == "RELATED_QUERIES") {
             column1.text("Queries");
             column2.text("Value(%)");
             column3.hide();
-          }
-          else if(selectType == 'RELATED_TOPICS'){
+          } else if (selectType == "RELATED_TOPICS") {
             column1.text("Topics");
             column2.text("Topic types");
             column3.text("Value(%)").show();
@@ -68,8 +72,7 @@ $(function () {
         // Hide the loading effect
         removeLoadingEffect();
       },
-      error: function(){
-      }
+      error: function () {},
     });
     //$("#search-focus").val("");
   });
@@ -78,18 +81,18 @@ $(function () {
     tableBody.empty();
     for (var i = 0; i < data.length; i++) {
       var row = "<tr>";
-      for (var key in data[i]) { 
-          row += "<td>" + data[i][key] + "</td>";
-          //console.log('result:',data[i][key])
-        }
+      for (var key in data[i]) {
+        row += "<td>" + data[i][key] + "</td>";
+        //console.log('result:',data[i][key])
+      }
       row += "</tr>";
       tableBody.append(row);
-      console.log('data:',data)
+      //console.log('data:',data)
     }
 
     // for (var i = 0; i < data.length; i++) {
     //   var row = "<tr>";
-    //   if (data[i].location) { 
+    //   if (data[i].location) {
     //     row += "<td>" + data[i].location + "</td>";
     //     row += "<td>" + data[i].geo + "</td>";
     //     row += "<td>" + data[i].value + "</td>";
@@ -104,13 +107,12 @@ $(function () {
     //   console.log('data:',data)
     // }
   }
-    // Show the loading effect
-    function showLoadingEffect() {
-      $('#loadingEffect').removeClass('d-none');
-    }
-      // Hide the loading effect
-    function removeLoadingEffect() {
-    $("#loadingEffect").addClass('d-none');
+  // Show the loading effect
+  function showLoadingEffect() {
+    $("#loadingEffect").removeClass("d-none");
   }
-
+  // Hide the loading effect
+  function removeLoadingEffect() {
+    $("#loadingEffect").addClass("d-none");
+  }
 });

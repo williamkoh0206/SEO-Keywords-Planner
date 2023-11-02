@@ -1,5 +1,5 @@
 from serpapi.google_search import GoogleSearch
-
+import pandas as pd
 # keyword = "youtube"
 # type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
 # key = ["interest_by_region","related_queries","related_topics"] 
@@ -27,7 +27,7 @@ def fetch_data(keyword,type):
 
     search = GoogleSearch(params)
     results = search.get_dict()
-    print('Results: ',results)
+    #print('Results: ',results)
     data_list = []
     if key in results:
         if type == "GEO_MAP_0":
@@ -38,7 +38,7 @@ def fetch_data(keyword,type):
                     "continent_value": item["value"]
                 }
                 data_list.append(location)             
-            print('Location_Data: ',data_list)
+            #print('Location_Data: ',data_list)
         elif type == "RELATED_QUERIES":
             for item in results[key]["top"]:
                 query = {
@@ -46,7 +46,7 @@ def fetch_data(keyword,type):
                     "queries_value": item["value"]
                 }
                 data_list.append(query)
-            print('Queries: ',data_list)    
+            #print('Queries: ',data_list)    
         elif type == "RELATED_TOPICS":
             for item in results[key]["top"]:
                 topic = {
@@ -55,9 +55,10 @@ def fetch_data(keyword,type):
                     "value": item["value"]
                 }
                 data_list.append(topic)
-            print('Topic: ',data_list)
+            #print('Topic: ',data_list)
+    df = pd.DataFrame.from_dict(data_list)
+    print(df)
     return data_list
 __all__ = ['fetch_data']
 #Each time print = call once api for once (Free: 100 tokens)
-#fetch_data('youtube','GEO_MAP_0')
-
+#fetch_data('ocean park','GEO_MAP_0')
