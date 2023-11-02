@@ -37,9 +37,15 @@
       <tr class="searchResultColumn">
         <th id="col-1"></th>
         <th id="col-2"></th>
+        <th id="col-3"></th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 </div>
+{% if error_message %}
+<div class="alert alert-warning" role="alert">
+  <p class="text-center my-2">{{error_message}}</p>
+</div>
+{% endif %}
 {% endblock %}

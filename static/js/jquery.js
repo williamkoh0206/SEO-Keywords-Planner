@@ -5,11 +5,17 @@ $(function () {
     $(this).addClass("active");
   });
 
+  $('#search-focus').on("keypress",function(event){
+    if(event.key === "Enter"){
+      $("#searchBtn").click(); 
+    }
+  })
   $("#searchBtn").on("click", function () {
     const inputString = $("#search-focus").val();
     const selectType = $("#data_type").val();
     const column1 = $('#col-1');
     const column2 = $('#col-2');
+    const column3 = $('#col-3');
     const headerColumn = $('#searchResultsTable tr');
     console.log(inputString);
 
@@ -23,21 +29,39 @@ $(function () {
       },
       success: function (response) {
         displayResults(response);
-        const originalText = "Keyword results for";
-        $("#keywordValue").text(originalText + " " + inputString);
-        headerColumn.removeClass()
-        $("#searchResultsTable").show();
-        if (selectType == 'GEO_MAP_0'){
-          $("#col-1").text("Location");
-          $("#col-2").text("Value(%)");
+          const originalText = "Keyword results for";
+          $("#keywordValue").text(originalText + " " + inputString);
+          headerColumn.removeClass()
+          $("#searchResultsTable").show();
+        if (Object.prototype.hasOwnProperty.call(response, 'error_message')){
+          $('#searchResultsTable').hide();
+          var errorMessage = response.error_message;
+          var alertHtml = '<div class="alert alert-warning" role="alert"><p class="text-center my-2">' + errorMessage + '</p></div>';
+          if(!$('.alert').length){
+            $('#searchResultsTable').after(alertHtml);
+          }
         }
-        else if(selectType == 'RELATED_QUERIES'){
-          $("#col-1").text("Queries");
-          $("#col-2").text("Value(%)");
-        }
-        else if(selectType == 'RELATED_TOPICS'){
-          $("#col-1").text("Topics");
-          $("#col-2").text("Value(%)");
+        else{
+          displayResults(response);
+          const originalText = "Keyword results for";
+          $("#keywordValue").text(originalText + " " + inputString);
+          headerColumn.removeClass()
+          $("#searchResultsTable").show();
+          if (selectType == 'GEO_MAP_0'){
+            column1.text("Continent(short-form)");
+            column2.text("Value(%)");
+            column3.text("Location").show();
+          }
+          else if(selectType == 'RELATED_QUERIES'){
+            column1.text("Queries");
+            column2.text("Value(%)");
+            column3.hide();
+          }
+          else if(selectType == 'RELATED_TOPICS'){
+            column1.text("Topics");
+            column2.text("Topic types");
+            column3.text("Value(%)").show();
+          }
         }
       },
       complete: function () {
@@ -45,7 +69,6 @@ $(function () {
         removeLoadingEffect();
       },
       error: function(){
-
       }
     });
     //$("#search-focus").val("");
@@ -53,22 +76,33 @@ $(function () {
   function displayResults(data) {
     var tableBody = $("#searchResultsTable tbody");
     tableBody.empty();
-
     for (var i = 0; i < data.length; i++) {
       var row = "<tr>";
-      if (data[i].location) { //handle by region case location key
-        row += "<td>" + data[i].location + "</td>";
-        row += "<td>" + data[i].value + "</td>";
-      } else {  //handle by topics and queries cases
-        for (var key in data[i]) { //loop through the object through the key to return the values
+      for (var key in data[i]) { 
           row += "<td>" + data[i][key] + "</td>";
           //console.log('result:',data[i][key])
         }
-      }
       row += "</tr>";
       tableBody.append(row);
-      //console.log('data:',data)
+      console.log('data:',data)
     }
+
+    // for (var i = 0; i < data.length; i++) {
+    //   var row = "<tr>";
+    //   if (data[i].location) { 
+    //     row += "<td>" + data[i].location + "</td>";
+    //     row += "<td>" + data[i].geo + "</td>";
+    //     row += "<td>" + data[i].value + "</td>";
+    //   } else {  //handle by topics and queries cases
+    //     for (var key in data[i]) { //loop through the object through the key to return the values
+    //       row += "<td>" + data[i][key] + "</td>";
+    //       //console.log('result:',data[i][key])
+    //     }
+    //   }
+    //   row += "</tr>";
+    //   tableBody.append(row);
+    //   console.log('data:',data)
+    // }
   }
     // Show the loading effect
     function showLoadingEffect() {
@@ -78,4 +112,5 @@ $(function () {
     function removeLoadingEffect() {
     $("#loadingEffect").addClass('d-none');
   }
+
 });
