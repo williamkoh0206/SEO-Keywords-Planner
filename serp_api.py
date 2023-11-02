@@ -27,28 +27,37 @@ def fetch_data(keyword,type):
 
     search = GoogleSearch(params)
     results = search.get_dict()
-    print(results)
+    print('Results: ',results)
     data_list = []
     if key in results:
         if type == "GEO_MAP_0":
-            data_list = results[key]
+            for item in results[key]:
+                location = {
+                    "continent": item['geo'],
+                    "location": item["location"],
+                    "continent_value": item["value"]
+                }
+                data_list.append(location)             
+            print('Location_Data: ',data_list)
         elif type == "RELATED_QUERIES":
             for item in results[key]["top"]:
                 query = {
                     "queries_title": item["query"],
                     "queries_value": item["value"]
                 }
-                data_list.append(query)    
+                data_list.append(query)
+            print('Queries: ',data_list)    
         elif type == "RELATED_TOPICS":
             for item in results[key]["top"]:
                 topic = {
                     "title": item["topic"]["title"],
+                    "type": item['topic']['type'],
                     "value": item["value"]
                 }
-                print(topic)
                 data_list.append(topic)
+            print('Topic: ',data_list)
     return data_list
 __all__ = ['fetch_data']
 #Each time print = call once api for once (Free: 100 tokens)
-#print(data_list)
+#fetch_data('youtube','GEO_MAP_0')
 

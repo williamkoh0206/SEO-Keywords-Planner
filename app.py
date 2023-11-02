@@ -47,6 +47,10 @@ def fetch_search_data():
     keyword = request.args.get("keyword")
     type = request.args.get("type")
     data_list = fetch_data(keyword,type)
+    if not data_list:
+        error_message = "No results found for the given keyword and type."
+        print(data_list, error_message)
+        return jsonify(error_message=error_message)
     return jsonify(data_list)
 
 @app.route("/login", methods=['GET', 'POST'])
