@@ -30,6 +30,22 @@ def chart(type):
         plt.pie(df_gp['value'], labels=df_gp['Topic_Type'],
                 autopct='%1.1f%%', startangle=0)
         plt.show()
+    if type == 'related_queries.json':
+        df = jsonHandler("related_queries.json")
+        df['value'] = df['value'].str.extract('(\d+)')
+        df['value'] = df['value'].astype('int')
+        print(df)
+        fig, ax = plt.subplots()
+        ax.bar(df['Queries'], df['value'])
+        for s in ['top', 'bottom', 'left', 'right']:
+            ax.spines[s].set_visible(False)
+        plt.xticks(rotation=90, ha='center', fontsize=5)
+        ax.grid(b=True, color='grey',
+                linestyle='-.', linewidth=0.5,
+                alpha=0.2)
+        ax.set_title('Query',
+                     loc='center', )
+        plt.show()
 
 
-chart("related_topics.json")
+chart("related_queries.json")

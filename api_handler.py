@@ -32,7 +32,7 @@ def jsonHandler(type):
     return df
 
 
-jsonHandler("related_topics.json")
+jsonHandler("related_queries.json")
 
 
 '''
