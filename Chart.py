@@ -39,8 +39,8 @@ def chart(type):
         ax.bar(df['Queries'], df['value'])
         for s in ['top', 'bottom', 'left', 'right']:
             ax.spines[s].set_visible(False)
-        plt.xticks(rotation=90, ha='center', fontsize=5)
-        ax.grid(b=True, color='grey',
+        plt.xticks(rotation=90, ha='center', fontsize=6)
+        ax.grid(color='grey',
                 linestyle='-.', linewidth=0.5,
                 alpha=0.2)
         ax.set_title('Query',

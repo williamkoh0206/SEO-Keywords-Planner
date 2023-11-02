@@ -29,24 +29,39 @@ $(function () {
       },
       success: function (response) {
         displayResults(response);
-        const originalText = "Keyword results for";
-        $("#keywordValue").text(originalText + " " + inputString);
-        headerColumn.removeClass()
-        $("#searchResultsTable").show();
-        if (selectType == 'GEO_MAP_0'){
-          column1.text("Continent(short-form)");
-          column2.text("Value(%)");
-          column3.text("Location");
+          const originalText = "Keyword results for";
+          $("#keywordValue").text(originalText + " " + inputString);
+          headerColumn.removeClass()
+          $("#searchResultsTable").show();
+        if (Object.prototype.hasOwnProperty.call(response, 'error_message')){
+          $('#searchResultsTable').hide();
+          var errorMessage = response.error_message;
+          var alertHtml = '<div class="alert alert-warning" role="alert"><p class="text-center my-2">' + errorMessage + '</p></div>';
+          if(!$('.alert').length){
+            $('#searchResultsTable').after(alertHtml);
+          }
         }
-        else if(selectType == 'RELATED_QUERIES'){
-          column1.text("Queries");
-          column2.text("Value(%)");
-          column3.hide();
-        }
-        else if(selectType == 'RELATED_TOPICS'){
-          column1.text("Topics");
-          column2.text("Topic types");
-          column3.text("Value(%)");
+        else{
+          displayResults(response);
+          const originalText = "Keyword results for";
+          $("#keywordValue").text(originalText + " " + inputString);
+          headerColumn.removeClass()
+          $("#searchResultsTable").show();
+          if (selectType == 'GEO_MAP_0'){
+            column1.text("Continent(short-form)");
+            column2.text("Value(%)");
+            column3.text("Location").show();
+          }
+          else if(selectType == 'RELATED_QUERIES'){
+            column1.text("Queries");
+            column2.text("Value(%)");
+            column3.hide();
+          }
+          else if(selectType == 'RELATED_TOPICS'){
+            column1.text("Topics");
+            column2.text("Topic types");
+            column3.text("Value(%)").show();
+          }
         }
       },
       complete: function () {
