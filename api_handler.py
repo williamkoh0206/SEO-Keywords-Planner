@@ -11,10 +11,10 @@ def jsonHandler(type):
     if type == "interest_by_region.json":
         for item in data:
             location = item['location']
-            location_short_form = item['geo']
+            location_in_short = item['geo']
             value = item['value']
             result.append(
-                {'location': location, 'location_short_form': location_short_form, 'value': value})
+                {'location': location, 'location_in_short': location_in_short, 'continent_value': value})
     elif type == "related_topics.json":
         for item in data['top']:
             title = item['topic']['title']
@@ -26,7 +26,7 @@ def jsonHandler(type):
         for item in data['top']:
             queries_title = item['query']
             queries_value = item['value']
-            result.append({'Queries': queries_title, 'value': queries_value})
+            result.append({'queries_title': queries_title, 'queries_value': queries_value})
     df = pd.DataFrame(result)
     print(df.head(10))
     return df
