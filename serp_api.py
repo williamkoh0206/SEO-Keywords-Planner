@@ -33,7 +33,7 @@ def fetch_data(keyword,type):
         if type == "GEO_MAP_0":
             for item in results[key]:
                 location = {
-                    "continent": item['geo'],
+                    "location_in_short": item['geo'],
                     "location": item["location"],
                     "continent_value": item["value"]
                 }
@@ -61,4 +61,4 @@ def fetch_data(keyword,type):
     return data_list
 __all__ = ['fetch_data']
 #Each time print = call once api for once (Free: 100 tokens)
-#fetch_data('ocean park','GEO_MAP_0')
+fetch_data('ocean park','GEO_MAP_0')
