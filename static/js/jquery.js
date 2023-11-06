@@ -10,6 +10,30 @@ $(function () {
       $("#searchBtn").click();
     }
   });
+
+  function hideAlertIfNeeded() {
+    if ($("#searchResultsTable").next(".alert").is(":visible")) {
+      console.log("being hidden");
+      $("#searchResultsTable").next(".alert").remove();
+    }
+  }
+
+  // Create a new MutationObserver instance
+  const observer = new MutationObserver(function (mutationsList) {
+    for (let mutation of mutationsList) {
+      if (
+        mutation.target.id === "searchResultsTable" &&
+        mutation.addedNodes.length > 0
+      ) {
+        removeAlertIfNeeded();
+        break;
+      }
+    }
+  });
+
+  // Start observing changes in the DOM
+  observer.observe(document.body, { childList: true, subtree: true });
+
   $("#searchBtn").on("click", function () {
     const inputString = $("#search-focus").val();
     const selectType = $("#data_type").val();
@@ -28,7 +52,7 @@ $(function () {
         showLoadingEffect();
       },
       success: function (response) {
-        displayResults(response);
+        // displayResults(response);
         const originalText = "Keyword results for";
         $("#keywordValue").text(originalText + " " + inputString);
         headerColumn.removeClass();
@@ -40,12 +64,14 @@ $(function () {
             '<div class="alert alert-warning" role="alert"><p class="text-center my-2">' +
             errorMessage +
             "</p></div>";
-          if ($("#searchResultsTable").next(".alert").length === 0) {
+          if ($("#searchResultsTable").next(".alert").length == 0) {
             $("#searchResultsTable").after(alertHtml);
-            console.log($("#searchResultsTable").next(".alert").length)
-          } else if($("#searchResultsTable").next(".alert").length >0) {
-            console.log("being hidden");
-            $("#searchResultsTable").next(".alert").hide();
+            console.log(
+              "First time:",
+              $("#searchResultsTable").next(".alert").length
+            );
+          } else {
+            hideAlertIfNeeded();
           }
         } else {
           displayResults(response);
@@ -87,7 +113,7 @@ $(function () {
       }
       row += "</tr>";
       tableBody.append(row);
-      //console.log('data:',data)
+      console.log("data:", data);
     }
 
     // for (var i = 0; i < data.length; i++) {

@@ -246,4 +246,4 @@ for item in items:
     keys.append(item[0]), values.append(item[1])
 
 continent = pd.DataFrame(items, columns=['country', 'continent'])
-print(continent)
+#print(continent)
