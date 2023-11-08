@@ -18,22 +18,6 @@ $(function () {
     }
   }
 
-  // Create a new MutationObserver instance
-  const observer = new MutationObserver(function (mutationsList) {
-    for (let mutation of mutationsList) {
-      if (
-        mutation.target.id === "searchResultsTable" &&
-        mutation.addedNodes.length > 0
-      ) {
-        removeAlertIfNeeded();
-        break;
-      }
-    }
-  });
-
-  // Start observing changes in the DOM
-  observer.observe(document.body, { childList: true, subtree: true });
-
   $("#searchBtn").on("click", function () {
     const inputString = $("#search-focus").val();
     const selectType = $("#data_type").val();
@@ -64,16 +48,11 @@ $(function () {
             '<div class="alert alert-warning" role="alert"><p class="text-center my-2">' +
             errorMessage +
             "</p></div>";
-          if ($("#searchResultsTable").next(".alert").length == 0) {
-            $("#searchResultsTable").after(alertHtml);
-            console.log(
-              "First time:",
-              $("#searchResultsTable").next(".alert").length
-            );
-          } else {
-            hideAlertIfNeeded();
-          }
+            if ($("#searchResultsTable").next(".alert").length == 0){
+              $("#searchResultsTable").after(alertHtml);
+            }
         } else {
+          hideAlertIfNeeded()
           displayResults(response);
           const originalText = "Keyword results for";
           $("#keywordValue").text(originalText + " " + inputString);
@@ -81,16 +60,33 @@ $(function () {
           $("#searchResultsTable").show();
           if (selectType == "GEO_MAP_0") {
             column1.text("Continent(short-form)");
-            column2.text("Value(%)");
-            column3.text("Location").show();
+            column2.text("Location");
+            column3.text("Value").show();
           } else if (selectType == "RELATED_QUERIES") {
             column1.text("Queries");
             column2.text("Value(%)");
             column3.hide();
           } else if (selectType == "RELATED_TOPICS") {
             column1.text("Topics");
-            column2.text("Topic types");
+            column2.text("Types");
             column3.text("Value(%)").show();
+          }
+          function displayResults(data) {
+            var tableBody = $("#searchResultsTable tbody");
+            tableBody.empty();
+            for (var i = 0; i < data.length; i++) {
+              var row = "<tr>";
+              const regionKeyList = ['location_in_short','location','continent_value']
+              // const queriesKeyList = ['location_in_short','location','continent_value']
+              // const topicKeyList = ['location_in_short','location','continent_value']
+              for (key in regionKeyList) {
+                row += "<td>" + data[i][regionKeyList[key]] + "</td>";
+                //console.log('result:',data[i][key])
+              }
+              row += "</tr>";
+              tableBody.append(row);
+              console.log("data:", data);
+            }
           }
         }
       },
@@ -102,37 +98,6 @@ $(function () {
     });
     //$("#search-focus").val("");
   });
-  function displayResults(data) {
-    var tableBody = $("#searchResultsTable tbody");
-    tableBody.empty();
-    for (var i = 0; i < data.length; i++) {
-      var row = "<tr>";
-      for (var key in data[i]) {
-        row += "<td>" + data[i][key] + "</td>";
-        //console.log('result:',data[i][key])
-      }
-      row += "</tr>";
-      tableBody.append(row);
-      console.log("data:", data);
-    }
-
-    // for (var i = 0; i < data.length; i++) {
-    //   var row = "<tr>";
-    //   if (data[i].location) {
-    //     row += "<td>" + data[i].location + "</td>";
-    //     row += "<td>" + data[i].geo + "</td>";
-    //     row += "<td>" + data[i].value + "</td>";
-    //   } else {  //handle by topics and queries cases
-    //     for (var key in data[i]) { //loop through the object through the key to return the values
-    //       row += "<td>" + data[i][key] + "</td>";
-    //       //console.log('result:',data[i][key])
-    //     }
-    //   }
-    //   row += "</tr>";
-    //   tableBody.append(row);
-    //   console.log('data:',data)
-    // }
-  }
   // Show the loading effect
   function showLoadingEffect() {
     $("#loadingEffect").removeClass("d-none");
