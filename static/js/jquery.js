@@ -77,15 +77,29 @@ $(function () {
             for (var i = 0; i < data.length; i++) {
               var row = "<tr>";
               const regionKeyList = ['location_in_short','location','continent_value']
-              // const queriesKeyList = ['location_in_short','location','continent_value']
-              // const topicKeyList = ['location_in_short','location','continent_value']
-              for (key in regionKeyList) {
-                row += "<td>" + data[i][regionKeyList[key]] + "</td>";
-                //console.log('result:',data[i][key])
+              const queriesKeyList = ['queries_title','queries_value']
+              const topicKeyList = ['title','type','value']
+              if (selectType == 'GEO_MAP_0'){
+                for (key in regionKeyList) {
+                  row += "<td>" + data[i][regionKeyList[key]] + "</td>";
+                  console.log('result:',data[i][key])
+                }
+              }
+              else if(selectType == 'RELATED_QUERIES'){
+                for (key in queriesKeyList) {
+                  row += "<td>" + data[i][queriesKeyList[key]] + "</td>";
+                  console.log('result:',data[i][key])
+                }
+              }
+              else if(selectType == 'RELATED_TOPICS'){
+                for (key in topicKeyList) {
+                  row += "<td>" + data[i][topicKeyList[key]] + "</td>";
+                  console.log('result:',data[i][key])
+                }
               }
               row += "</tr>";
               tableBody.append(row);
-              console.log("data:", data);
+              //console.log("data:", data);
             }
           }
         }

@@ -1,5 +1,7 @@
 from serpapi.google_search import GoogleSearch
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from Get_Continent import *
 # keyword = "youtube"
@@ -53,7 +55,10 @@ def fetch_data(keyword,type):
             df_gp.rename(columns={"value": "continent_value"}, inplace=True)
             plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
                     autopct='%1.1f%%', startangle=0, pctdistance=0.85)
-            plt.show()             
+            image_filename = f'{keyword}_region.png'
+            plt.savefig(image_filename)
+            plt.close()
+            #plt.show()             
             #print('Location_Data: ',data_list)
         elif type == "RELATED_QUERIES":
             for item in results[key]["top"]:
@@ -75,7 +80,9 @@ def fetch_data(keyword,type):
                     alpha=0.2)
             ax.set_title('Query',
                          loc='center', )
-            plt.show()
+            image_filename = f'{keyword}_queries.png'
+            plt.savefig(image_filename)
+            plt.close()
             #print('Queries: ',data_list)    
         elif type == "RELATED_TOPICS":
             for item in results[key]["top"]:
@@ -85,7 +92,7 @@ def fetch_data(keyword,type):
                     "value": item["value"]
                 }
                 data_list.append(topic)
-            print('Topic: ',data_list)
+            #print('Topic: ',data_list)
             df = pd.DataFrame.from_dict(data_list)
             df['value'] = df['value'].str.extract('(\d+)')
             df['value'] = df['value'].astype('int')
@@ -98,8 +105,12 @@ def fetch_data(keyword,type):
             df_gp = df_gp.reset_index()
             plt.pie(df_gp['value'], labels=df_gp['title'],
                     autopct='%1.1f%%', startangle=0)
-            plt.show()
+            image_filename = f'{keyword}_topics.png'    
+            plt.savefig(image_filename)
+            plt.close()
+            #plt.show()
     #print(df)
+        data_list.append({"image_filename": image_filename})
     return data_list
 __all__ = ['fetch_data']
 #Each time print = call once api or once (Free: 100 tokens)

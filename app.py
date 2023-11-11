@@ -51,7 +51,11 @@ def fetch_search_data():
         error_message = "No results found for the given keyword and type."
         print(data_list, error_message)
         return jsonify(error_message=error_message)
-    return jsonify(data_list)
+    image_filename = data_list[-1].get("image_filename")
+    data_list[0]["image_filename"] = image_filename
+    print(image_filename)
+    print(data_list)
+    return jsonify(data_list),image_filename
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

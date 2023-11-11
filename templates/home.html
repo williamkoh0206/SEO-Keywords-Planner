@@ -8,18 +8,14 @@
       <p class="my-1">Enter a keyword</p>
       <div class="input-group my-1 mb-4">
         <div class="form-outline">
-          <input
-            id="search-focus"
-            type="search"
-            class="form-control" 
-          />
+          <input id="search-focus" type="search" class="form-control" />
           <label class="form-label" for="form1">Search</label>
         </div>
         <select id="data_type" name="trend_list" form="trend_form">
           <option value="GEO_MAP_0">Region</option>
           <option value="RELATED_QUERIES">Queries</option>
           <option value="RELATED_TOPICS">Topics</option>
-        </select> 
+        </select>
         <button type="button" class="btn btn-primary ml-2" id="searchBtn">
           <i class="fas fa-search"></i>
         </button>
@@ -28,7 +24,7 @@
   </div>
 </div>
 <div class="d-flex justify-content-center d-none" id="loadingEffect">
-  <div class="spinner-border text-primary" role="status"> </div>
+  <div class="spinner-border text-primary" role="status"></div>
 </div>
 <div class="container mt-4">
   <h3 id="keywordValue" class="keyword_result"></h3>
@@ -42,5 +38,9 @@
     </thead>
     <tbody></tbody>
   </table>
+  {% if image_filename %}
+  <h4>Chart Image</h4>
+  <img src="{{ url_for('static', filename=image_filename) }}" />
+  {% endif %}
 </div>
 {% endblock %}
