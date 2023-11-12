@@ -19,7 +19,7 @@ def fetch_data(keyword,type):
         "engine": "google_trends",
         "q": keyword,
         "data_type": type,
-        "api_key": "17211ecac1162f32835e7e803dc8f7c1d6325fbe4aaf3b47cdb8b6101a43d83f"
+        "api_key": "5ffc52edd328eeaf4ab78c5c2b1a2ff11442c5677cf3afa9c44c902913921b6a"
     }
     key = ''
     if type == 'GEO_MAP_0':
@@ -55,8 +55,9 @@ def fetch_data(keyword,type):
             df_gp.rename(columns={"value": "continent_value"}, inplace=True)
             plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
                     autopct='%1.1f%%', startangle=0, pctdistance=0.85)
-            image_filename = f'{keyword}_region.png'
+            image_filename = f'static/img/{keyword}_region.png'
             plt.savefig(image_filename)
+            data_list.append({"image_filename": image_filename})
             plt.close()
             #plt.show()             
             #print('Location_Data: ',data_list)
@@ -80,8 +81,9 @@ def fetch_data(keyword,type):
                     alpha=0.2)
             ax.set_title('Query',
                          loc='center', )
-            image_filename = f'{keyword}_queries.png'
+            image_filename = f'static/img/{keyword}_queries.png'
             plt.savefig(image_filename)
+            data_list.append({"image_filename": image_filename})
             plt.close()
             #print('Queries: ',data_list)    
         elif type == "RELATED_TOPICS":
@@ -105,12 +107,12 @@ def fetch_data(keyword,type):
             df_gp = df_gp.reset_index()
             plt.pie(df_gp['value'], labels=df_gp['title'],
                     autopct='%1.1f%%', startangle=0)
-            image_filename = f'{keyword}_topics.png'    
+            image_filename = f'static/img/{keyword}_topics.png'    
             plt.savefig(image_filename)
+            data_list.append({"image_filename": image_filename})
             plt.close()
             #plt.show()
     #print(df)
-        data_list.append({"image_filename": image_filename})
     return data_list
 __all__ = ['fetch_data']
 #Each time print = call once api or once (Free: 100 tokens)

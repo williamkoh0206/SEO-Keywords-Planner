@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, jsonify, request
+from flask import Flask, render_template, url_for, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from flask_wtf import FlaskForm
@@ -38,24 +38,28 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
-@app.route("/")
+@app.route("/",methods=['GET', 'POST'])
 def home():
+    keyword = '' 
+    type = ''
+    if request.method == 'POST':
+        keyword = request.form.get("keyword")
+        type = request.form.get("type")
+        print('keyword1',keyword)
+        print('type1',type)        
+        return redirect(url_for('keyword_search', keyword=keyword, type=type))
     return render_template('home.html', active_page='home')
 
-@app.route('/search',methods=['GET'])
-def fetch_search_data():
-    keyword = request.args.get("keyword")
-    type = request.args.get("type")
+@app.route('/<keyword>/<type>', methods=['GET', 'POST'])
+def keyword_search(keyword,type):
+    if request.method == 'POST':
+        return redirect(url_for('keyword_search', keyword=keyword, type=type))
     data_list = fetch_data(keyword,type)
-    if not data_list:
-        error_message = "No results found for the given keyword and type."
-        print(data_list, error_message)
-        return jsonify(error_message=error_message)
-    image_filename = data_list[-1].get("image_filename")
-    data_list[0]["image_filename"] = image_filename
-    print(image_filename)
-    print(data_list)
-    return jsonify(data_list),image_filename
+    image_filename = ''
+    if len(data_list) > 0:
+        image_filename = data_list[-1].get("image_filename")
+        data_list = data_list[:-1]
+    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,active_page='home')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
