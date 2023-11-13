@@ -1,5 +1,7 @@
 from serpapi.google_search import GoogleSearch
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from Get_Continent import *
 # keyword = "youtube"
@@ -17,7 +19,7 @@ def fetch_data(keyword,type):
         "engine": "google_trends",
         "q": keyword,
         "data_type": type,
-        "api_key": "17211ecac1162f32835e7e803dc8f7c1d6325fbe4aaf3b47cdb8b6101a43d83f"
+        "api_key": "5ffc52edd328eeaf4ab78c5c2b1a2ff11442c5677cf3afa9c44c902913921b6a"
     }
     key = ''
     if type == 'GEO_MAP_0':
@@ -53,7 +55,11 @@ def fetch_data(keyword,type):
             df_gp.rename(columns={"value": "continent_value"}, inplace=True)
             plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
                     autopct='%1.1f%%', startangle=0, pctdistance=0.85)
-            plt.show()             
+            image_filename = f'static/img/{keyword}_region.png'
+            plt.savefig(image_filename)
+            data_list.append({"image_filename": image_filename})
+            plt.close()
+            #plt.show()             
             #print('Location_Data: ',data_list)
         elif type == "RELATED_QUERIES":
             for item in results[key]["top"]:
@@ -75,7 +81,10 @@ def fetch_data(keyword,type):
                     alpha=0.2)
             ax.set_title('Query',
                          loc='center', )
-            plt.show()
+            image_filename = f'static/img/{keyword}_queries.png'
+            plt.savefig(image_filename)
+            data_list.append({"image_filename": image_filename})
+            plt.close()
             #print('Queries: ',data_list)    
         elif type == "RELATED_TOPICS":
             for item in results[key]["top"]:
@@ -85,7 +94,7 @@ def fetch_data(keyword,type):
                     "value": item["value"]
                 }
                 data_list.append(topic)
-            print('Topic: ',data_list)
+            #print('Topic: ',data_list)
             df = pd.DataFrame.from_dict(data_list)
             df['value'] = df['value'].str.extract('(\d+)')
             df['value'] = df['value'].astype('int')
@@ -98,7 +107,11 @@ def fetch_data(keyword,type):
             df_gp = df_gp.reset_index()
             plt.pie(df_gp['value'], labels=df_gp['title'],
                     autopct='%1.1f%%', startangle=0)
-            plt.show()
+            image_filename = f'static/img/{keyword}_topics.png'    
+            plt.savefig(image_filename)
+            data_list.append({"image_filename": image_filename})
+            plt.close()
+            #plt.show()
     #print(df)
     return data_list
 __all__ = ['fetch_data']
