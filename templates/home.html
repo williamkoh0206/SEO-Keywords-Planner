@@ -32,6 +32,12 @@
   {% if keyword %}
   <h3 id="keywordValue" class="keyword_result">Keyword results for {{keyword}}</h3>
   {% endif %} 
+  {% if keyword and not data_list %}
+  <div class="alert alert-warning" role="alert">
+    <p class="text-center my-2">No results found for the given keyword and type.</p>
+    </div>
+  {% endif %}
+  {% if data_list %}
   <table id="searchResultsTable" class="table table-striped">
     <thead>
       <tr class="searchResultColumn">
@@ -59,15 +65,15 @@
       {% endfor %}
     </tbody>
   </table>
-  {% if image_filename %}
-  <h4>Chart Image</h4>
-  <img src="{{ url_for('static', filename=image_filename[7:]) }}" />
+    {% if image_filename %}
+    <h4>Chart Image</h4>
+    <img src="{{ url_for('static', filename=image_filename[7:]) }}" />
   <h5>Download the chart</h5>
   <p>
     <a href="{{url_for('static', filename=image_filename[7:])}}">Download</a>
   </p>
-  {% endif %} 
+    {% endif %} 
+  {% endif %}
 </div>
-
 
 {% endblock %}

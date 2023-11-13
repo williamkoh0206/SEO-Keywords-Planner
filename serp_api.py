@@ -53,10 +53,11 @@ def fetch_data(keyword,type):
             df_gp = df_gp.reset_index()
             df_gp.rename(columns={"location_in_short": "continent"}, inplace=True)
             df_gp.rename(columns={"value": "continent_value"}, inplace=True)
+            df_gp = df_gp[df_gp['continent_value'] >= 1]
             plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
-                    autopct='%1.1f%%', startangle=0, pctdistance=0.85)
+                    autopct='%1.1f%%', startangle=0, pctdistance=0.65)
             image_filename = f'static/img/{keyword}_region.png'
-            plt.savefig(image_filename)
+            plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
             plt.close()
             #plt.show()             
@@ -82,7 +83,7 @@ def fetch_data(keyword,type):
             ax.set_title('Query',
                          loc='center', )
             image_filename = f'static/img/{keyword}_queries.png'
-            plt.savefig(image_filename)
+            plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
             plt.close()
             #print('Queries: ',data_list)    
@@ -108,7 +109,7 @@ def fetch_data(keyword,type):
             plt.pie(df_gp['value'], labels=df_gp['title'],
                     autopct='%1.1f%%', startangle=0)
             image_filename = f'static/img/{keyword}_topics.png'    
-            plt.savefig(image_filename)
+            plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
             plt.close()
             #plt.show()
