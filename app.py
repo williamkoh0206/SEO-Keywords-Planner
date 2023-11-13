@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, jsonify, request, redirect
+from flask import Flask, render_template, url_for, jsonify, request, redirect, send_file
 from serp_api import fetch_data
 
 app = Flask(__name__)
@@ -36,5 +36,11 @@ def signup():
     form = SignUpForm()
     return render_template('signup.html', form=form, active_page='signup')
 
+@app.route('/download')
+def download_file():
+    p = "cityu_queries.png"
+    return send_file(p,as_attachment=True)
+
 if __name__ == '__main__':
     app.run(debug="True")
+
