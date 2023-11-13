@@ -38,7 +38,7 @@ def signup():
 
 @app.route('/download')
 def download_file():
-    p = "cityu_queries.png"
+    p = "static/img/cityu_queries.png"
     return send_file(p,as_attachment=True)
 
 if __name__ == '__main__':

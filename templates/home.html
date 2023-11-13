@@ -64,7 +64,7 @@
   <img src="{{ url_for('static', filename=image_filename[7:]) }}" />
   <h5>Download the chart</h5>
   <p>
-    <a href="{{url_for('static', filename=image_filename[7:])}}">Download</a>
+    <a href="{{ url_for('download_file') }}">Download</a>
   </p>
   {% endif %} 
 </div>
