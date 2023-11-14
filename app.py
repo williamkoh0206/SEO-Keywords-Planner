@@ -18,10 +18,15 @@ def home():
 @app.route('/<keyword>/<type>', methods=['GET', 'POST'])
 def keyword_search(keyword,type):
     if request.method == 'POST':
-        return redirect(url_for('keyword_search', keyword=keyword, type=type))     
+        updated_keyword = request.form.get('keyword')
+        updated_type = request.form.get('type') 
+        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
+    
     data_list = fetch_data(keyword,type)
-    print('empytDataList: ',not data_list)
     image_filename = ''
+
+    print('empytDataList: ',not data_list)
+    print('fetched data',data_list)
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
