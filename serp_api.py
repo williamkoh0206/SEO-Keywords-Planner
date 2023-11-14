@@ -56,6 +56,7 @@ def fetch_data(keyword,type):
             df_gp = df_gp[df_gp['continent_value'] >= 1]
             plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
                     autopct='%1.1f%%', startangle=0, pctdistance=0.65)
+            plt.title('%s region search pie chart '%keyword)
             image_filename = f'static/img/{keyword}_region.png'
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
@@ -80,7 +81,7 @@ def fetch_data(keyword,type):
             ax.grid(color='grey',
                     linestyle='-.', linewidth=0.5,
                     alpha=0.2)
-            ax.set_title('Query',
+            ax.set_title('%s queries search bar chart '%keyword,
                          loc='center', )
             image_filename = f'static/img/{keyword}_queries.png'
             plt.savefig(image_filename,bbox_inches='tight')
@@ -108,6 +109,7 @@ def fetch_data(keyword,type):
             df_gp = df_gp.reset_index()
             plt.pie(df_gp['value'], labels=df_gp['title'],
                     autopct='%1.1f%%', startangle=0)
+            plt.title('%s topics search bar charts'%keyword)
             image_filename = f'static/img/{keyword}_topics.png'    
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
