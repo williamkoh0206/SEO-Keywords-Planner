@@ -29,11 +29,24 @@
           >
         </div>
         <ul class="nav justify-content-end menu">
+
           <li class="nav-item">
             <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('home')}}">Home</a>
           </li>
+        {% if logged_in %}
+                        <li class="nav-item">
+      <a class="nav-link {% if active_page == 'update_info' %}active{% endif %}" href="{{ url_for('update_info')}}">Update Info</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if active_page == 'delete_account' %}active{% endif %}" href="{{ url_for('delete_account')}}">Delete Account</a>
+    </li>
           <li class="nav-item">
-            <a class="nav-link {% if active_page == 'signup' %}active{% endif %}" href="{{ url_for('signup')}}">Sign Up</a>
+            <a class="nav-link {% if active_page == 'signup' %}active{% endif %}" href="{{ url_for('signout')}}">Sign Out</a>
+        </li>
+        {% else %}
+            <li class="nav-item">
+              <a class="nav-link {% if active_page == 'signup' %}active{% endif %}" href="{{ url_for('signup')}}">Sign Up</a>
+          {% endif %}
           </li>
           <li class="nav-item">
             <a class="nav-link {% if active_page == 'login' %}active{% endif %}" href="{{ url_for('login')}}">Login</a>
