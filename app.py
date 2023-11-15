@@ -2,9 +2,39 @@ from flask import Flask, render_template, url_for, request, redirect, send_file,
 from serp_api import fetch_data
 import json
 import os
+from demo_data_handler import jsonHandler,chart
 
 app = Flask(__name__)
 app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
+
+@app.route("/demo",methods = ['GET','POST'])
+def demo():
+    demo_keyword = ''
+    demo_type = ''
+    if request.method == 'POST':
+        demo_keyword = request.form.get("demo_keyword")
+        demo_type = request.form.get("demo_type")
+        print('demo_keyword',demo_keyword)
+        print('demo_type',demo_type)
+        return redirect(url_for('demo_keyword_search', demo_keyword=demo_keyword, demo_type=demo_type)) 
+    return render_template('demo.html',active_page = 'demo')
+
+@app.route('/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
+def demo_keyword_search(demo_keyword,demo_type):
+    if request.method == 'POST':
+        updated_demo_keyword = request.form.get('demo_keyword')
+        updated_demo_type = request.form.get("demo_type")
+        return redirect(url_for('keyword_search', demo_keyword=updated_demo_keyword, demo_type=updated_demo_type))
+    if demo_type == 'GEO_MAP_0':
+        demo_data = jsonHandler('cityu_region.json')
+        demo_chart = chart('cityu_region.json')
+    elif demo_type == 'RELATED_QUERIES':
+        demo_data = jsonHandler('cityu_queries.json')
+        demo_chart = chart('cityu_queries.json')
+    elif demo_type == 'RELATED_TOPICS':
+        demo_data = jsonHandler('cityu_queries.json')
+        demo_chart = chart('cityu_queries.json')
+    return render_template('demo.html',active_page = 'demo',demo_data=demo_data,demo_chart=demo_chart)
 
 @app.route("/",methods=['GET', 'POST'])
 def home():

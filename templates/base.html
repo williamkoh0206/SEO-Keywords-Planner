@@ -31,6 +31,9 @@
         <ul class="nav justify-content-end menu">
 
           <li class="nav-item">
+            <a class="nav-link {% if active_page == 'demo' %}active{% endif %}" href="{{ url_for('demo')}}">Demo</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('home')}}">Home</a>
           </li>
         {% if logged_in %}
