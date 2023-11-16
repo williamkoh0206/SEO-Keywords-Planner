@@ -7,7 +7,7 @@ from demo_data_handler import jsonHandler,chart
 app = Flask(__name__)
 app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
 
-@app.route("/demo",methods = ['GET','POST'])
+@app.route("/",methods = ['GET','POST'])
 def demo():
     demo_keyword = ''
     demo_type = ''
@@ -19,7 +19,7 @@ def demo():
         return redirect(url_for('demo_keyword_search', demo_keyword=demo_keyword, demo_type=demo_type)) 
     return render_template('demo.html',active_page = 'demo')
 
-@app.route('/demo/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
+@app.route('/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
 def demo_keyword_search(demo_keyword,demo_type):
     if request.method == 'POST':
         updated_demo_keyword = request.form.get('demo_keyword')
@@ -44,8 +44,8 @@ def demo_keyword_search(demo_keyword,demo_type):
         top3_demo_data = [item['Topic'] for item in demo_data[:3]]
     return render_template('demo.html',active_page = 'demo',demo_data=demo_data,demo_chart=demo_chart,demo_keyword=demo_keyword,demo_type=demo_type,demo_type_dict=demo_type_dict,top3_demo_data=top3_demo_data)
 
-@app.route("/",methods=['GET', 'POST'])
-def home():
+@app.route("/search",methods=['GET', 'POST'])
+def search():
     keyword = '' 
     type = ''
     if request.method == 'POST':
@@ -54,9 +54,9 @@ def home():
         print('keyword1',keyword)
         print('type1',type)        
         return redirect(url_for('keyword_search', keyword=keyword, type=type))
-    return render_template('home.html', active_page='home')
+    return render_template('search.html', active_page='search')
 
-@app.route('/<keyword>/<type>', methods=['GET', 'POST'])
+@app.route('/search/<keyword>/<type>', methods=['GET', 'POST'])
 def keyword_search(keyword,type):
     if request.method == 'POST':
         updated_keyword = request.form.get('keyword')
@@ -76,18 +76,17 @@ def keyword_search(keyword,type):
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
-    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home')
+    return render_template('search.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='search')
 
-#@app.route('/')
-def home():  # put application's code here
+def search():  # put application's code here
     username = session.get('username')
     if username:
         # User is logged in, retrieve other user-specific information if needed
         username = session.get('username')
-        return render_template('home.html', logged_in=True, username=username)
+        return render_template('search.html', logged_in=True, username=username)
     else:
         # User is not logged in
-        return render_template('home.html', logged_in=False)
+        return render_template('search.html', logged_in=False)
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -113,11 +112,11 @@ def login():
             if user['username'] == username and user['password'] == password:
                 #session['username'] = user['username']
                 session['username'] = user['username']
-                return redirect(url_for('home'))
+                return redirect(url_for('search'))
 
         return "Invalid username or password", 401
 
-    return render_template('login.html')
+    return render_template('login.html',active_page = 'login')
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -161,7 +160,7 @@ def signup():
 
         return redirect(url_for('login'))
 
-    return render_template('signup.html')
+    return render_template('signup.html',active_page = 'signup')
 
 @app.route('/signout')
 def signout():
@@ -207,7 +206,7 @@ def update_info():
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
 
-            return redirect(url_for('home'))
+            return redirect(url_for('search'))
         else:
             user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
             username = session.get('username')
@@ -221,7 +220,7 @@ def update_info():
             for user in existing_users:
                 if user['username'] == username:
                     email = user['email']
-            return render_template('update_info.html', username=username, email=email)
+            return render_template('update_info.html', username=username, email=email,active_page = 'update_info')
     else:
 
         return redirect(url_for('login'))
