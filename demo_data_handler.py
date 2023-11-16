@@ -77,12 +77,12 @@ def chart(type):
     elif type == 'cityu_topics.json':
         df['value'] = df['value'].str.extract('(\d+)')
         df['value'] = df['value'].astype('int')
-        df.loc[df['value'] < 3, 'Other'] = 'Yes'
+        df.loc[df['value'] < 4, 'Other'] = 'Yes'
         df['Other'] = df['Other'].fillna('No')
-        df.loc[df['Other'] == 'Yes', 'Topic_Type'] = 'Other'
-        df_gp = df.groupby(['Topic_Type']).agg(value=('value', 'sum'))
+        df.loc[df['Other'] == 'Yes', 'Topic'] = 'Other'
+        df_gp = df.groupby(['Topic']).agg(value=('value', 'sum'))
         df_gp = df_gp.reset_index()
-        plt.pie(df_gp['value'], labels=df_gp['Topic_Type'], autopct='%1.1f%%', startangle=0)
+        plt.pie(df_gp['value'], labels=df_gp['Topic'], autopct='%1.1f%%', startangle=0)
         plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
         plt.title('%s topics search pie chart'%'cityu')
         plt.show()
