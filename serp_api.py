@@ -101,7 +101,7 @@ def fetch_data(keyword,type):
             df = pd.DataFrame.from_dict(data_list)
             df['value'] = df['value'].str.extract('(\d+)')
             df['value'] = df['value'].astype('int')
-            df.loc[df['value'] < 3, 'title'] = 'Other'
+            df.loc[df['value'] < 10, 'title'] = 'Other'
             df_gp = df.groupby(['title']).agg(value=('value', 'sum'))
             # df.loc[df['value'] < 10, 'Other'] = 'Yes'
             # df['Other'] = df['Other'].fillna('No')
@@ -111,7 +111,7 @@ def fetch_data(keyword,type):
             plt.pie(df_gp['value'], labels=df_gp['title'],
                     autopct='%1.1f%%', startangle=0, textprops={'fontsize': 8.5})
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
-            plt.title('%s topics search pie charts'%keyword)
+            plt.title('%s topics search pie chart'%keyword)
             image_filename = f'static/img/{keyword}_topics.png'
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})

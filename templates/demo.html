@@ -1,0 +1,106 @@
+{% extends "base.html" %} 
+{% block title %}Demo {% endblock %} 
+{% block content %}
+<div class="py-2 intro-section">
+    <div class="container text-center text-white fw-bold">
+      <h1>SEO Keywords Tool</h1>
+      <p class="my-1">A tool to discover the best keywords to target</p>
+      <div class="search-bar-section text-start">
+        <p class="my-1">Use Cityu keyword as the demo data</p>
+        <form id="searchForm" method="POST">
+        <div class="input-group my-1 mb-4">
+          <div class="form-outline">
+            <input id="search-focus" type="search" class="form-control" name="demo_keyword" value="{{ demo_keyword }}"/>
+            <label class="form-label" for="form1">Search</label>
+          </div>
+          <select id="demo_data_type" name="demo_type" form="searchForm">
+            <option value="GEO_MAP_0" {% if demo_type == 'GEO_MAP_0' %} selected {% endif %}>Region</option>
+            <option value="RELATED_QUERIES" {% if demo_type == 'RELATED_QUERIES' %} selected {% endif %}>Queries</option>
+            <option value="RELATED_TOPICS" {% if demo_type == 'RELATED_TOPICS' %} selected {% endif %}>Topics</option>
+          </select>
+          <button type="submit" class="btn btn-primary ml-2" id="searchBtn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center d-none" id="loadingEffect">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+  <div class="container mt-4">
+    {% if demo_keyword %}
+    <h3 id="demo_keywordValue" class="keyword_result">Keyword results for {{demo_keyword}}</h3>
+      {% if demo_type == "GEO_MAP_0"%}
+      <div class="alert alert-info" role="alert">
+        <p class="mb-1">The top3 highest locations are:</p>
+        <ol>
+          {% for location in top3_demo_data %}
+          <li><span class="fw-bold">{{ location }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% elif demo_type == "RELATED_QUERIES"%}
+      <div class="alert alert-info" role="alert">
+        <p class="mb-1">The top3 hot seach keywords are:</p>
+        <ol>
+          {% for location in top3_demo_data %}
+          <li><span class="fw-bold">{{ location }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% elif demo_type == "RELATED_TOPICS"%}
+      <div class="alert alert-info" role="alert">
+        <p class="mb-1">The top3 prevalent topics are:</p>
+        <ol>
+          {% for location in top3_demo_data %}
+          <li><span class="fw-bold">{{ location }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% endif %}
+    {% endif %} 
+    {% if demo_data %}
+    <table id="searchResultsTable" class="table table-striped">
+        <thead>
+          <tr class="searchResultColumn">
+            {% if demo_type == "GEO_MAP_0" %}
+            <th id="col-1">Continent(short-form)</th>
+            <th id="col-2">Location</th>
+            <th id="col-3">Value</th>
+            {% elif demo_type == "RELATED_QUERIES" %}
+            <th id="col-1">Queries</th>
+            <th id="col-2">Value(%)</th>
+            {% elif demo_type == "RELATED_TOPICS" %}
+            <th id="col-1">Topics</th>
+            <th id="col-2">Types</th>
+            <th id="col-3">Value(%)</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in demo_data %}
+          <tr>
+            {% for key, value in item.items() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if demo_chart %}
+      <div class="mb-3 text-center">
+        <h4 class='keyword_result'>Chart Image</h4>
+        <img src = "{{demo_chart}}" />
+        <br>
+        <a class="btn btn-primary my-3 w-25" 
+        href="{{ demo_chart }}" 
+        download="cityu_{{ demo_type_dict.get(demo_type) }}.png">
+          Download
+      </a>
+      </div>
+      {% endif%}
+    {%endif%}
+  </div>
+{% endblock %}

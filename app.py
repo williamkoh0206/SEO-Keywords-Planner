@@ -2,9 +2,47 @@ from flask import Flask, render_template, url_for, request, redirect, send_file,
 from serp_api import fetch_data
 import json
 import os
+from demo_data_handler import jsonHandler,chart
 
 app = Flask(__name__)
 app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
+
+@app.route("/demo",methods = ['GET','POST'])
+def demo():
+    demo_keyword = ''
+    demo_type = ''
+    if request.method == 'POST':
+        demo_keyword = request.form.get("demo_keyword")
+        demo_type = request.form.get("demo_type")
+        print('demo_keyword',demo_keyword)
+        print('demo_type',demo_type)
+        return redirect(url_for('demo_keyword_search', demo_keyword=demo_keyword, demo_type=demo_type)) 
+    return render_template('demo.html',active_page = 'demo')
+
+@app.route('/demo/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
+def demo_keyword_search(demo_keyword,demo_type):
+    if request.method == 'POST':
+        updated_demo_keyword = request.form.get('demo_keyword')
+        updated_demo_type = request.form.get("demo_type")
+        return redirect(url_for('demo_keyword_search', demo_keyword=updated_demo_keyword, demo_type=updated_demo_type))
+    demo_type_dict = {
+    "GEO_MAP_0": "region",
+    "RELATED_QUERIES": "queries",
+    "RELATED_TOPICS": "topics"
+    }
+    if demo_type == 'GEO_MAP_0':
+        demo_data = jsonHandler('cityu_region.json')
+        demo_chart = chart('cityu_region.json')
+        top3_demo_data = [item['location'] for item in demo_data[:3]]
+    elif demo_type == 'RELATED_QUERIES':
+        demo_data = jsonHandler('cityu_queries.json')
+        demo_chart = chart('cityu_queries.json')
+        top3_demo_data = [item['queries_title'] for item in demo_data[:3]]
+    elif demo_type == 'RELATED_TOPICS':
+        demo_data = jsonHandler('cityu_topics.json')
+        demo_chart = chart('cityu_topics.json')
+        top3_demo_data = [item['Topic'] for item in demo_data[:3]]
+    return render_template('demo.html',active_page = 'demo',demo_data=demo_data,demo_chart=demo_chart,demo_keyword=demo_keyword,demo_type=demo_type,demo_type_dict=demo_type_dict,top3_demo_data=top3_demo_data)
 
 @app.route("/",methods=['GET', 'POST'])
 def home():
@@ -26,14 +64,19 @@ def keyword_search(keyword,type):
         return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
     
     data_list = fetch_data(keyword,type)
+    if type == 'GEO_MAP_0':
+        top3_data = [item['location'] for item in data_list[:3]]
+    elif type == 'RELATED_QUERIES':
+        top3_data = [item['queries_title'] for item in data_list[:3]]
+    elif type == 'RELATED_TOPICS':
+        top3_data = [item['title'] for item in data_list[:3]]
     image_filename = ''
-
     print('empytDataList: ',not data_list)
-    print('fetched data',data_list)
+    #print('fetched data',data_list)
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
-    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,active_page='home')
+    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home')
 
 #@app.route('/')
 def home():  # put application's code here
