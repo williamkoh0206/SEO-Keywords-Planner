@@ -31,7 +31,36 @@
 <div class="container mt-4">
   {% if keyword %}
   <h3 id="keywordValue" class="keyword_result">Keyword results for {{keyword}}</h3>
+    {% if type == "GEO_MAP_0"%}
+    <div class="alert alert-info" role="alert">
+      The top3 highest regions are:
+      <ol>
+        {% for location in top3_data %}
+        <li><span class="fw-bold">{{ location }}</span></li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% elif type == "RELATED_QUERIES"%}
+    <div class="alert alert-info" role="alert">
+      The top3 hot search are:
+      <ol>
+        {% for location in top3_data %}
+        <li><span class="fw-bold">{{ location }}</span></li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% elif type == "RELATED_TOPICS"%}
+    <div class="alert alert-info" role="alert">
+      The top3 prevalent topics are:
+      <ol>
+        {% for location in top3_data %}
+        <li><span class="fw-bold">{{ location }}</span></li>
+        {% endfor %}
+      </ol>
+    </div>
+    {% endif %}
   {% endif %} 
+  
   {% if keyword and not data_list %}
   <div class="alert alert-warning" role="alert">
     <p class="text-center my-2">No results found for the given keyword and type.</p>

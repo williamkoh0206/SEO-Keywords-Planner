@@ -14,9 +14,9 @@
             <label class="form-label" for="form1">Search</label>
           </div>
           <select id="demo_data_type" name="demo_type" form="searchForm">
-            <option value="GEO_MAP_0" {% if type == 'GEO_MAP_0' %} selected {% endif %}>Region</option>
-            <option value="RELATED_QUERIES" {% if type == 'RELATED_QUERIES' %} selected {% endif %}>Queries</option>
-            <option value="RELATED_TOPICS" {% if type == 'RELATED_TOPICS' %} selected {% endif %}>Topics</option>
+            <option value="GEO_MAP_0" {% if demo_type == 'GEO_MAP_0' %} selected {% endif %}>Region</option>
+            <option value="RELATED_QUERIES" {% if demo_type == 'RELATED_QUERIES' %} selected {% endif %}>Queries</option>
+            <option value="RELATED_TOPICS" {% if demo_type == 'RELATED_TOPICS' %} selected {% endif %}>Topics</option>
           </select>
           <button type="submit" class="btn btn-primary ml-2" id="searchBtn">
             <i class="fas fa-search"></i>
@@ -32,6 +32,34 @@
   <div class="container mt-4">
     {% if demo_keyword %}
     <h3 id="demo_keywordValue" class="keyword_result">Keyword results for {{demo_keyword}}</h3>
+      {% if demo_type == "GEO_MAP_0"%}
+      <div class="alert alert-info" role="alert">
+        The top3 highest regions are:
+        <ol>
+          {% for location in top3_demo_data %}
+          <li><span class="fw-bold">{{ location }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% elif demo_type == "RELATED_QUERIES"%}
+      <div class="alert alert-info" role="alert">
+        The top3 hot search are:
+        <ol>
+          {% for location in top3_demo_data %}
+          <li><span class="fw-bold">{{ location }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% elif demo_type == "RELATED_TOPICS"%}
+      <div class="alert alert-info" role="alert">
+        The top3 prevalent topics are:
+        <ol>
+          {% for location in top3_demo_data %}
+          <li><span class="fw-bold">{{ location }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% endif %}
     {% endif %} 
     {% if demo_data %}
     <table id="searchResultsTable" class="table table-striped">
@@ -61,6 +89,18 @@
           {% endfor %}
         </tbody>
       </table>
+      {% if demo_chart %}
+      <div class="mb-3 text-center">
+        <h4 class='keyword_result'>Chart Image</h4>
+        <img src = "{{demo_chart}}" />
+        <br>
+        <a class="btn btn-primary my-3 w-25" 
+        href="{{ demo_chart }}" 
+        download="cityu_{{ demo_type_dict.get(demo_type) }}.png">
+          Download
+      </a>
+      </div>
+      {% endif%}
     {%endif%}
   </div>
 {% endblock %}

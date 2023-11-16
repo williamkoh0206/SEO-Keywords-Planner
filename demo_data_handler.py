@@ -48,13 +48,15 @@ def chart(type):
         plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
                 autopct='%1.1f%%', startangle=0, pctdistance=0.65)
         plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
-        plt.show()
-        # plt.title('%s region search pie chart '%'cityu')
-        # plt.savefig('cityu_region.png',bbox_inches='tight')
-        # buf = BytesIO()
-        # FigureCanvasAgg(fig).print_png(buf)
-        # buf_str = "data:image/png;base64,"
-        # buf_str += base64.b64encode(buf.getvalue()).decode('utf8')
+        plt.title('%s region search pie chart '%'cityu')
+        img_buffer = BytesIO()
+        plt.savefig(img_buffer, format='png',bbox_inches='tight')
+        img_buffer.seek(0)
+
+        img_data = img_buffer.getvalue()
+        img_src = 'data:image/png;base64,' + base64.b64encode(img_data).decode()
+        plt.close()
+        return img_src
 
     elif type == 'cityu_queries.json':
         df['queries_value'] = df['queries_value'].str.extract('(\d+)')
@@ -68,31 +70,35 @@ def chart(type):
                 linestyle='-.', linewidth=0.5,
                 alpha=0.2)
         ax.set_title('%s queries search bar chart'%'cityu', loc='center',)
-        # plt.savefig('cityu_queries.png',bbox_inches='tight')
-        # buf = BytesIO()
-        # FigureCanvasAgg(fig).print_png(buf)
-        # buf_str = "data:image/png;base64,"
-        # buf_str += base64.b64encode(buf.getvalue()).decode('utf8')
+        img_buffer = BytesIO()
+        plt.savefig(img_buffer, format='png',bbox_inches='tight')
+        img_buffer.seek(0)
+        img_data = img_buffer.getvalue()
+        img_src = 'data:image/png;base64,' + base64.b64encode(img_data).decode()
+        plt.close()
+        return img_src
 
     elif type == 'cityu_topics.json':
         df['value'] = df['value'].str.extract('(\d+)')
         df['value'] = df['value'].astype('int')
+        df['Other'] = ''
         df.loc[df['value'] < 4, 'Other'] = 'Yes'
         df['Other'] = df['Other'].fillna('No')
         df.loc[df['Other'] == 'Yes', 'Topic'] = 'Other'
         df_gp = df.groupby(['Topic']).agg(value=('value', 'sum'))
         df_gp = df_gp.reset_index()
         plt.pie(df_gp['value'], labels=df_gp['Topic'], autopct='%1.1f%%', startangle=0)
-        plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
+        plt.legend(loc='upper center', bbox_to_anchor=(0.4, -0.04), ncol=3)
         plt.title('%s topics search pie chart'%'cityu')
-        plt.show()
-        # plt.savefig('cityu_topics.png',bbox_inches='tight')
-        # buf = BytesIO()
-        # FigureCanvasAgg(fig).print_png(buf)
-        # buf_str = "data:image/png;base64,"
-        # buf_str += base64.b64encode(buf.getvalue()).decode('utf8')
+        img_buffer = BytesIO()
+        plt.savefig(img_buffer, format='png',bbox_inches='tight')
+        img_buffer.seek(0)
+        img_data = img_buffer.getvalue()
+        img_src = 'data:image/png;base64,' + base64.b64encode(img_data).decode()
+        plt.close()
+        return img_src
 
-chart('cityu_topics.json')
+jsonHandler('cityu_topics.json')
 '''
 related_topics.json
 related_queries.json
