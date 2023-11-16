@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% set active_page
+    = "update_info" %} {% block content %}
+        <h1>Update User Information</h1>
+        <form action="{{ url_for('update_info') }}" method="POST">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" value="{{ username }}" readonly><br><br>
+    
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" value="{{ email }}"><br><br>
+    
+            <label for="password">New Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+    
+            <input type="submit" value="Update">
+        </form>
+    {% endblock %}
