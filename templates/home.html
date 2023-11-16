@@ -33,7 +33,7 @@
   <h3 id="keywordValue" class="keyword_result">Keyword results for {{keyword}}</h3>
     {% if type == "GEO_MAP_0"%}
     <div class="alert alert-info" role="alert">
-      The top3 highest regions are:
+      <p class="mb-1">The top3 highest locations are:</p>
       <ol>
         {% for location in top3_data %}
         <li><span class="fw-bold">{{ location }}</span></li>
@@ -42,7 +42,7 @@
     </div>
     {% elif type == "RELATED_QUERIES"%}
     <div class="alert alert-info" role="alert">
-      The top3 hot search are:
+      <p class="mb-1">The top3 hot seach keywords are:</p>
       <ol>
         {% for location in top3_data %}
         <li><span class="fw-bold">{{ location }}</span></li>
@@ -51,7 +51,7 @@
     </div>
     {% elif type == "RELATED_TOPICS"%}
     <div class="alert alert-info" role="alert">
-      The top3 prevalent topics are:
+      <p class="mb-1">The top3 prevalent topics are:</p>
       <ol>
         {% for location in top3_data %}
         <li><span class="fw-bold">{{ location }}</span></li>
@@ -95,12 +95,16 @@
     </tbody>
   </table>
     {% if image_filename %}
-    <h4>Chart Image</h4>
-    <img src="{{ url_for('static', filename=image_filename[7:]) }}" />
-  <h5>Download the Chart Image</h5>
-  <p>
-    <a href="{{ url_for('static', filename=image_filename[7:]) }}" download >Download</a>
-  </p>
+    <div class="mb-3 text-center">
+      <h4 class='keyword_result'>Chart Image</h4>
+      <img src="{{ url_for('static', filename=image_filename[7:]) }}" />
+      <br>
+      <a class="btn btn-primary my-3 w-25" 
+      href="{{ url_for('static', filename=image_filename[7:]) }}" 
+      download>
+        Download
+    </a>
+    </div>
     {% endif %} 
   {% endif %}
 </div>

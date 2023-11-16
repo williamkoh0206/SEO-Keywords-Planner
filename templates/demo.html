@@ -34,7 +34,7 @@
     <h3 id="demo_keywordValue" class="keyword_result">Keyword results for {{demo_keyword}}</h3>
       {% if demo_type == "GEO_MAP_0"%}
       <div class="alert alert-info" role="alert">
-        The top3 highest regions are:
+        <p class="mb-1">The top3 highest locations are:</p>
         <ol>
           {% for location in top3_demo_data %}
           <li><span class="fw-bold">{{ location }}</span></li>
@@ -43,7 +43,7 @@
       </div>
       {% elif demo_type == "RELATED_QUERIES"%}
       <div class="alert alert-info" role="alert">
-        The top3 hot search are:
+        <p class="mb-1">The top3 hot seach keywords are:</p>
         <ol>
           {% for location in top3_demo_data %}
           <li><span class="fw-bold">{{ location }}</span></li>
@@ -52,7 +52,7 @@
       </div>
       {% elif demo_type == "RELATED_TOPICS"%}
       <div class="alert alert-info" role="alert">
-        The top3 prevalent topics are:
+        <p class="mb-1">The top3 prevalent topics are:</p>
         <ol>
           {% for location in top3_demo_data %}
           <li><span class="fw-bold">{{ location }}</span></li>
