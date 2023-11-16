@@ -55,7 +55,8 @@ def fetch_data(keyword,type):
             df_gp.rename(columns={"value": "continent_value"}, inplace=True)
             df_gp = df_gp[df_gp['continent_value'] >= 1]
             plt.pie(df_gp['continent_value'], labels=df_gp['continent'],
-                    autopct='%1.1f%%', startangle=0, pctdistance=0.65)
+                    autopct='%1.1f%%', startangle=0, pctdistance=0.65, textprops={'fontsize': 8.5})
+            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
             plt.title('%s region search pie chart '%keyword)
             image_filename = f'static/img/{keyword}_region.png'
             plt.savefig(image_filename,bbox_inches='tight')
@@ -108,9 +109,10 @@ def fetch_data(keyword,type):
             # df_gp = df.groupby(['Topic_Type']).agg(value=('value', 'sum'))
             df_gp = df_gp.reset_index()
             plt.pie(df_gp['value'], labels=df_gp['title'],
-                    autopct='%1.1f%%', startangle=0)
+                    autopct='%1.1f%%', startangle=0, textprops={'fontsize': 8.5})
+            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
             plt.title('%s topics search pie charts'%keyword)
-            image_filename = f'static/img/{keyword}_topics.png'    
+            image_filename = f'static/img/{keyword}_topics.png'
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
             plt.close()
