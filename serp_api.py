@@ -19,7 +19,7 @@ def fetch_data(keyword,type):
         "engine": "google_trends",
         "q": keyword,
         "data_type": type,
-        "api_key": "5ffc52edd328eeaf4ab78c5c2b1a2ff11442c5677cf3afa9c44c902913921b6a"
+        "api_key": "3d66e3d130aa6d290fd34915f7ec82fb77a8942ee8a4d5d2756b7b710f03f483"
     }
     key = ''
     if type == 'GEO_MAP_0':
