@@ -24,37 +24,62 @@
     <nav class="navbar">
       <div class="container-fluid d-flex">
         <div class="title">
-          <a class="font-weight-bold fw-bold" href="/"
-            >SEO Keywords Planner</a
-          >
+          <a class="font-weight-bold fw-bold" href="/">SEO Keywords Planner</a>
         </div>
         <ul class="nav justify-content-end menu">
-
+          {% if logged_in %}
           <li class="nav-item">
-            <a class="nav-link {% if active_page == 'demo' %}active{% endif %}" href="{{ url_for('demo')}}">Demo</a>
+            <a
+              class="nav-link {% if active_page == 'home' %}active{% endif %}"
+              href="{{ url_for('home')}}"
+              >Search</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if active_page == 'search' %}active{% endif %}" href="{{ url_for('search')}}">Search</a>
-          </li>
-        {% if logged_in %}
-                        <li class="nav-item">
-      <a class="nav-link {% if active_page == 'update_info' %}active{% endif %}" href="{{ url_for('update_info')}}">Update Info</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link {% if active_page == 'delete_account' %}active{% endif %}" href="{{ url_for('delete_account')}}">Delete Account</a>
-    </li>
-          <li class="nav-item">
-            <a class="nav-link {% if active_page == 'signup' %}active{% endif %}" href="{{ url_for('signout')}}">Sign Out</a>
-        </li>
-        {% else %}
-            <li class="nav-item">
-              <a class="nav-link {% if active_page == 'signup' %}active{% endif %}" href="{{ url_for('signup')}}">Sign Up</a>
-          {% endif %}
+            <a
+              class="nav-link {% if active_page == 'update_info' %}active{% endif %}"
+              href="{{ url_for('update_info')}}"
+              >Update Info</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if active_page == 'login' %}active{% endif %}" href="{{ url_for('login')}}">Login</a>
+            <a
+              class="nav-link {% if active_page == 'delete_account' %}active{% endif %}"
+              href="{{ url_for('delete_account')}}"
+              >Delete Account</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if active_page == 'signup' %}active{% endif %}"
+              href="{{ url_for('signout')}}"
+              >Sign Out</a
+            >
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a
+              class="nav-link {% if active_page == 'demo' %}active{% endif %}"
+              href="{{ url_for('demo')}}"
+              >Demo</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if active_page == 'signup' %}active{% endif %}"
+              href="{{ url_for('signup')}}"
+              >Sign Up</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link {% if active_page == 'login' %}active{% endif %}"
+              href="{{ url_for('login')}}"
+              >Login</a
+            >
           </li>
         </ul>
+        {% endif %}
       </div>
     </nav>
     {% block content%} {% endblock %}
