@@ -7,7 +7,48 @@ from demo_data_handler import jsonHandler,chart
 app = Flask(__name__)
 app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
 
-@app.route("/",methods = ['GET','POST'])
+@app.route("/",methods=['GET', 'POST'])
+def home():
+    keyword = '' 
+    type = ''
+    username = session.get('username')
+    if request.method == 'POST':
+        keyword = request.form.get("keyword")
+        type = request.form.get("type")
+        print('keyword1',keyword)
+        print('type1',type)        
+        return redirect(url_for('keyword_search', keyword=keyword, type=type))
+    if username:
+        # User is logged in, retrieve other user-specific information if needed
+        username = session.get('username')
+        return render_template('home.html', logged_in=True, username=username,active_page='home')
+    else:
+        # User is not logged in
+        return redirect(url_for('demo'))
+
+@app.route('/<keyword>/<type>', methods=['GET', 'POST'])
+def keyword_search(keyword,type):
+    if request.method == 'POST':
+        updated_keyword = request.form.get('keyword')
+        updated_type = request.form.get('type') 
+        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
+    
+    data_list = fetch_data(keyword,type)
+    if type == 'GEO_MAP_0':
+        top3_data = [item['location'] for item in data_list[:3]]
+    elif type == 'RELATED_QUERIES':
+        top3_data = [item['queries_title'] for item in data_list[:3]]
+    elif type == 'RELATED_TOPICS':
+        top3_data = [item['title'] for item in data_list[:3]]
+    image_filename = ''
+    print('empytDataList: ',not data_list)
+    print('fetched data',data_list)
+    if len(data_list) > 0:
+        image_filename = data_list[-1].get("image_filename")
+        data_list = data_list[:-1]
+    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home')
+
+@app.route("/demo",methods = ['GET','POST'])
 def demo():
     demo_keyword = ''
     demo_type = ''
@@ -17,9 +58,9 @@ def demo():
         print('demo_keyword',demo_keyword)
         print('demo_type',demo_type)
         return redirect(url_for('demo_keyword_search', demo_keyword=demo_keyword, demo_type=demo_type)) 
-    return render_template('demo.html',active_page = 'demo')
+    return render_template('demo.html',active_page = 'demo',logged_in=False)
 
-@app.route('/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
+@app.route('/demo/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
 def demo_keyword_search(demo_keyword,demo_type):
     if request.method == 'POST':
         updated_demo_keyword = request.form.get('demo_keyword')
@@ -43,50 +84,6 @@ def demo_keyword_search(demo_keyword,demo_type):
         demo_chart = chart('cityu_topics.json')
         top3_demo_data = [item['Topic'] for item in demo_data[:3]]
     return render_template('demo.html',active_page = 'demo',demo_data=demo_data,demo_chart=demo_chart,demo_keyword=demo_keyword,demo_type=demo_type,demo_type_dict=demo_type_dict,top3_demo_data=top3_demo_data)
-
-@app.route("/search",methods=['GET', 'POST'])
-def search():
-    keyword = '' 
-    type = ''
-    if request.method == 'POST':
-        keyword = request.form.get("keyword")
-        type = request.form.get("type")
-        print('keyword1',keyword)
-        print('type1',type)        
-        return redirect(url_for('keyword_search', keyword=keyword, type=type))
-    return render_template('search.html', active_page='search')
-
-@app.route('/search/<keyword>/<type>', methods=['GET', 'POST'])
-def keyword_search(keyword,type):
-    if request.method == 'POST':
-        updated_keyword = request.form.get('keyword')
-        updated_type = request.form.get('type') 
-        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
-    
-    data_list = fetch_data(keyword,type)
-    if type == 'GEO_MAP_0':
-        top3_data = [item['location'] for item in data_list[:3]]
-    elif type == 'RELATED_QUERIES':
-        top3_data = [item['queries_title'] for item in data_list[:3]]
-    elif type == 'RELATED_TOPICS':
-        top3_data = [item['title'] for item in data_list[:3]]
-    image_filename = ''
-    print('empytDataList: ',not data_list)
-    #print('fetched data',data_list)
-    if len(data_list) > 0:
-        image_filename = data_list[-1].get("image_filename")
-        data_list = data_list[:-1]
-    return render_template('search.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='search')
-
-def search():  # put application's code here
-    username = session.get('username')
-    if username:
-        # User is logged in, retrieve other user-specific information if needed
-        username = session.get('username')
-        return render_template('search.html', logged_in=True, username=username)
-    else:
-        # User is not logged in
-        return render_template('search.html', logged_in=False)
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -112,7 +109,7 @@ def login():
             if user['username'] == username and user['password'] == password:
                 #session['username'] = user['username']
                 session['username'] = user['username']
-                return redirect(url_for('search'))
+                return redirect(url_for('home'))
 
         return "Invalid username or password", 401
 
@@ -206,7 +203,7 @@ def update_info():
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
 
-            return redirect(url_for('search'))
+            return redirect(url_for('home'))
         else:
             user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
             username = session.get('username')
@@ -222,7 +219,6 @@ def update_info():
                     email = user['email']
             return render_template('update_info.html', username=username, email=email,active_page = 'update_info')
     else:
-
         return redirect(url_for('login'))
 
 @app.route('/delete_account')

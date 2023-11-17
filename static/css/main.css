@@ -34,7 +34,7 @@
     display: inline-block;
     width: 50%;
 }
-.keyword_result{
+.keyword_result,.account-title{
     color:#0d6efd;
 }
 /*Result table*/
