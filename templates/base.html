@@ -27,7 +27,7 @@
           <a class="font-weight-bold fw-bold" href="/">SEO Keywords Planner</a>
         </div>
         <ul class="nav justify-content-end menu">
-          {% if logged_in %}
+          {% if logged_in%}
           <li class="nav-item">
             <a
               class="nav-link {% if active_page == 'home' %}active{% endif %}"
@@ -50,12 +50,16 @@
             >
           </li>
           <li class="nav-item">
+            <span class="nav-link">User:{{username}}</span>
+          </li>
+          <li class="nav-item">
             <a
               class="nav-link {% if active_page == 'signup' %}active{% endif %}"
               href="{{ url_for('signout')}}"
               >Sign Out</a
             >
           </li>
+
           {% else %}
           <li class="nav-item">
             <a

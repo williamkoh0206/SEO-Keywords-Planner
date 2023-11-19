@@ -3,8 +3,8 @@
 {% block content %}
   <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card mx-4 mx-md-5 shadow-5-strong" style="background: hsla(202, 65%, 81%, 0.8); backdrop-filter: blur(30px);">
-      <div class="container mt-4 text-center">
-        <h1 class="account-title">Update User Information</h1>
+      <div class="container mt-4 text-center p-4">
+        <h3 class="account-title">Update User Information</h3>
         <form action="{{ url_for('update_info') }}" method="POST">
           <label for="username">Username:</label><br>
           <input type="text" id="username" name="username" value="{{ username }}" readonly><br><br>
@@ -15,8 +15,8 @@
           <label for="password">New Password:</label><br>
           <input type="password" id="password" name="password"><br><br>
           
-          <input type="submit" value="Update" class="btn btn-primary my-3">
-          
+          <button type="submit" class="btn btn-primary btn-lg">Update</button>
+        
           <form action="{{ url_for('delete_account') }}" method="POST" id="delete-account-form">
             <div class="my-3">
               <button type="submit" class="btn btn-danger btn-lg">Delete Account</button>

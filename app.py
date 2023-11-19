@@ -216,7 +216,7 @@ def update_info():
             for user in existing_users:
                 if user['username'] == username:
                     email = user['email']
-            return render_template('update_info.html', username=username, email=email,active_page = 'update_info')
+            return render_template('update_info.html', username=username, email=email,active_page = 'update_info',logged_in=True)
     else:
         return redirect(url_for('login'))
 
