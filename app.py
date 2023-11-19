@@ -226,10 +226,10 @@ def delete_account():
     # Check if the user is logged in
     if 'username' in session:
         username_to_delete = session['username']
-
+        
         # Get the path to the user JSON file
         user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
-
+        
         # Read existing user data from the file
         existing_users = []
         if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
@@ -238,18 +238,18 @@ def delete_account():
                     existing_users = json.load(file)
                 except json.decoder.JSONDecodeError:
                     pass
-
+        
         # Remove the user from the list based on the username
         updated_users = [user for user in existing_users if user['username'] != username_to_delete]
-
+        
         # Write the updated user data back to the file
         with open(user_file_path, 'w') as file:
             json.dump(updated_users, file, indent=2)
-
+        
         session.pop('username', None)
-
+        
         # Redirect to the login page
-        return redirect(url_for('login'))
+        return redirect(url_for('home'))
     else:
         # Redirect to the login page if not logged in
         return redirect(url_for('login'))
