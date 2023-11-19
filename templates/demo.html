@@ -29,6 +29,36 @@
   <div class="d-flex justify-content-center d-none" id="loadingEffect">
     <div class="spinner-border text-primary" role="status"></div>
   </div>
+  {% if not demo_keyword%}
+  <div class="container mt-4">
+    <div class="row card-deck">
+      <div class="col-lg-4 text-center py-3">
+        <div class="card py-3 steps-section">
+          <i class="fas fa-search fa-2x"></i>
+          <div class="card-body">
+            <h5 class="card-title">Step1: Enter Keyword</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center py-3">
+        <div class="card py-3 steps-section">
+          <i class="fa-regular fa-hand-pointer fa-2x"></i>
+          <div class="card-body">
+            <h5 class="card-title">Step2: Select Type</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center py-3">
+        <div class="card py-3 steps-section">
+          <i class="fa-solid fa-download fa-2x"></i>
+          <div class="card-body">
+            <h5 class="card-title">Step3: Download Image</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
   <div class="container mt-4">
     {% if demo_keyword %}
     <h3 id="demo_keywordValue" class="keyword_result">Keyword results for {{demo_keyword}}</h3>
@@ -40,6 +70,9 @@
           <li><span class="fw-bold">{{ location }}</span></li>
           {% endfor %}
         </ol>
+        <p><span class="fw-bold">*Continent: </span>Identify each region for grouping</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Location: </span>particular region</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Value: </span>100:highest popularity | 0:lowest popularity</p>
       </div>
       {% elif demo_type == "RELATED_QUERIES"%}
       <div class="alert alert-info" role="alert">
@@ -49,6 +82,8 @@
           <li><span class="fw-bold">{{ location }}</span></li>
           {% endfor %}
         </ol>
+        <p><span class="fw-bold">*Queries: </span>other related searching keywords</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Value: </span>100:highly related | 0:lowest related</p>
       </div>
       {% elif demo_type == "RELATED_TOPICS"%}
       <div class="alert alert-info" role="alert">
@@ -58,6 +93,9 @@
           <li><span class="fw-bold">{{ location }}</span></li>
           {% endfor %}
         </ol>
+        <p><span class="fw-bold">*Topics: </span>suggested topics for the searching keyword</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Types: </span>Types of the topics</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Value: </span>100:highly related | 0:lowest related</p>
       </div>
       {% endif %}
     {% endif %} 
