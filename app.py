@@ -3,6 +3,7 @@ from serp_api import fetch_data
 import json
 import os
 from demo_data_handler import jsonHandler,chart
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
@@ -172,7 +173,7 @@ def update_info():
     if 'username' in session:
         if request.method == 'POST':
             user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
-
+            
             # Read existing user data from the file
             existing_users = []
             if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
@@ -184,22 +185,20 @@ def update_info():
             username = session.get('username')
             email = request.form.get('email')
             password = request.form.get('password')
-            print (password)
-            print (len(password))
+            print(password)
+            print(len(password))
             for user in existing_users:
                 if user['username'] == username:
-                    print (user['password'])
+                    print(user['password'])
                     user['email'] = email
                     if len(password) == 0:
-                        print ("liuyi2b")
+                        print("liuyi2b")
                         newpassword = user['password']
-
                     else:
-                        hashed_password = generate_password_hash(password, method='sha256')
-                        newpassword = hashed_password
-                    print (newpassword)
+                        newpassword = password
+                    print(newpassword)
                     user['password'] = newpassword
-            print (existing_users)
+            print(existing_users)
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
 
@@ -223,6 +222,7 @@ def update_info():
 
 @app.route('/delete_account')
 def delete_account():
+
     # Check if the user is logged in
     if 'username' in session:
         username_to_delete = session['username']
