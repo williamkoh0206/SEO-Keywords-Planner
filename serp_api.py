@@ -4,6 +4,8 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from Get_Continent import *
+plt.rcParams["font.sans-serif"]=["SimHei"] #set font
+plt.rcParams["axes.unicode_minus"]=False
 # keyword = "youtube"
 # type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
 # key = ["interest_by_region","related_queries","related_topics"] 
