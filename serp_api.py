@@ -4,8 +4,6 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from Get_Continent import *
-plt.rcParams["font.sans-serif"]=["SimHei"] #set font
-plt.rcParams["axes.unicode_minus"]=False
 # keyword = "youtube"
 # type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
 # key = ["interest_by_region","related_queries","related_topics"] 
@@ -61,6 +59,8 @@ def fetch_data(keyword,type):
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
             plt.title('%s region search pie chart '%keyword)
             image_filename = f'static/img/{keyword}_region.png'
+            plt.rcParams["font.sans-serif"]=["SimHei"] #set font
+            plt.rcParams["axes.unicode_minus"]=False
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
             plt.close()
@@ -86,6 +86,8 @@ def fetch_data(keyword,type):
                     alpha=0.2)
             ax.set_title('%s queries search bar chart '%keyword,
                          loc='center', )
+            plt.rcParams["font.sans-serif"]=["SimHei"] #set font
+            plt.rcParams["axes.unicode_minus"]=False
             image_filename = f'static/img/{keyword}_queries.png'
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
@@ -115,6 +117,8 @@ def fetch_data(keyword,type):
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.04), ncol=3)
             plt.title('%s topics search pie chart'%keyword)
             image_filename = f'static/img/{keyword}_topics.png'
+            plt.rcParams["font.sans-serif"]=["SimHei"] #set font
+            plt.rcParams["axes.unicode_minus"]=False
             plt.savefig(image_filename,bbox_inches='tight')
             data_list.append({"image_filename": image_filename})
             plt.close()
