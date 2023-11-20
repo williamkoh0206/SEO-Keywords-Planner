@@ -30,11 +30,12 @@ def home():
 @app.route('/<keyword>/<type>', methods=['GET', 'POST'])
 def keyword_search(keyword,type):
     username = session.get('username')
+    logged_in = True
     if request.method == 'POST':
         updated_keyword = request.form.get('keyword')
         updated_type = request.form.get('type') 
-        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type,logged_in=True,username=username))    
-    
+        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
+
     data_list = fetch_data(keyword,type)
     if type == 'GEO_MAP_0':
         top3_data = [item['location'] for item in data_list[:3]]
@@ -48,7 +49,7 @@ def keyword_search(keyword,type):
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
-    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home',logged_in=True,username=username)
+    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home',logged_in=logged_in, username=username)
 
 @app.route("/demo",methods = ['GET','POST'])
 def demo():
@@ -109,7 +110,6 @@ def login():
 
         for user in existing_users:
             if user['username'] == username and user['password'] == password:
-                #session['username'] = user['username']
                 session['username'] = user['username']
                 return redirect(url_for('home'))
 
