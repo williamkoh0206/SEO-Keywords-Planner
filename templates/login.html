@@ -22,6 +22,11 @@
     >
       <div class="card-body py-5 px-md-5">
         <div class="row d-flex justify-content-center">
+          {% if username %}
+          <div class="alert alert-danger error-signup-alert pb-1" role="alert">
+            <p class="text-center">Invalid username or password</p>
+          </div>
+          {% endif %}
           <div class="col-lg-8">
             <h2 class="fw-bold mb-5">LOGIN</h2>
             <form method="POST" action="">

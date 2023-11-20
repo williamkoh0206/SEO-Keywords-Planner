@@ -113,7 +113,7 @@ def login():
                 session['username'] = user['username']
                 return redirect(url_for('home'))
 
-        return "Invalid username or password", 401
+        return render_template('login.html',active_page='login',username=username)
 
     return render_template('login.html',active_page = 'login')
 
