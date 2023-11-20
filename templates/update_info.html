@@ -1,27 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Edit Account{% endblock %}
 {% block content %}
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card mx-4 mx-md-5 shadow-5-strong" style="background: hsla(202, 65%, 81%, 0.8); backdrop-filter: blur(30px);">
-      <div class="container mt-4 text-center p-4">
-        <h3 class="account-title">Update User Information</h3>
-        <form action="{{ url_for('update_info') }}" method="POST">
-          <label for="username">Username:</label><br>
-          <input type="text" id="username" name="username" value="{{ username }}" readonly><br><br>
+<section class="text-center">
+  <div class="p-5 bg-image" 
+style=" background-image: url({{ url_for('static', filename='img/login-img.jpg') }});
+height: 300px;
+">
+</div>
+
+<!-- Background image -->
+
+<div class="card mx-4 mx-md-5 shadow-5-strong login-card"
+style="
+  margin-top: -100px;
+  background: hsla(202, 65%, 81%, 0.8);
+  backdrop-filter: blur(30px);
+"
+>
+  <div class="card-body py-5 px-md-5">
+    {% if updated or username or email%}
+    <div class="row d-flex justify-content-center">
+      {% if updated %}
+        <div class="alert alert-success pb-1 my-4" role="alert">
+          <p class="text-center">Modified successfully!</p>
+        </div>
+        {%endif %}
+        <div class="col-lg-8">
+          <h3 class="account-title">Update User Information</h3>
+          <form action="{{ url_for('update_info') }}" method="POST">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" value="{{ username }}" readonly><br><br>
+            
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" value="{{ email }}"><br><br>
+            
+            <label for="password">New Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+            
+            <button type="submit" class="btn btn-primary btn-lg">Update</button>
           
-          <label for="email">Email:</label><br>
-          <input type="email" id="email" name="email" value="{{ email }}"><br><br>
-          
-          <label for="password">New Password:</label><br>
-          <input type="password" id="password" name="password"><br><br>
-          
-          <button type="submit" class="btn btn-primary btn-lg">Update</button>
-        
-          <form action="{{ url_for('delete_account') }}" method="POST" id="delete-account-form">
-            <div class="my-3">
-              <button type="submit" class="btn btn-danger btn-lg">Delete Account</button>
-        </form>
-      </div>
+            <form action="{{ url_for('delete_account') }}" method="POST" id="delete-account-form">
+              <div class="my-3">
+                <button type="submit" class="btn btn-danger btn-lg">Delete Account</button>
+          </form>
+        </div>
     </div>
+    {% endif %}
   </div>
+</div>
+</section>
 {% endblock %}

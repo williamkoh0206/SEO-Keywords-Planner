@@ -11,13 +11,6 @@ $(function () {
     }
   });
 
-  function hideAlertIfNeeded() {
-    if ($("#searchResultsTable").next(".alert").is(":visible")) {
-      console.log("being hidden");
-      $("#searchResultsTable").next(".alert").remove();
-    }
-  }
-
   $("#searchBtn").on("click", function () {
     $('#searchForm').submit();
     showLoadingEffect()
