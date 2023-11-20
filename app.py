@@ -29,10 +29,11 @@ def home():
 
 @app.route('/<keyword>/<type>', methods=['GET', 'POST'])
 def keyword_search(keyword,type):
+    username = session.get('username')
     if request.method == 'POST':
         updated_keyword = request.form.get('keyword')
         updated_type = request.form.get('type') 
-        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
+        return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type,logged_in=True,username=username))    
     
     data_list = fetch_data(keyword,type)
     if type == 'GEO_MAP_0':
@@ -47,7 +48,7 @@ def keyword_search(keyword,type):
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
-    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home')
+    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home',logged_in=True,username=username)
 
 @app.route("/demo",methods = ['GET','POST'])
 def demo():
@@ -147,7 +148,8 @@ def signup():
         # Check if the username already exists
         for user in existing_users:
             if user['username'] == username:
-                return "Username already exists", 400
+                #return "Username already exists", 400
+                return render_template('signup.html',active_page='signup',username=username)
     
         # Add the new user data to the existing users
         existing_users.append(user_data)
@@ -202,7 +204,7 @@ def update_info():
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
 
-            return redirect(url_for('home'))
+            return render_template('update_info.html',active_page='update_info',updated=True,logged_in=True,username=username,email=email)
         else:
             user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
             username = session.get('username')
