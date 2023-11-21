@@ -3,9 +3,9 @@
 {% block content %}
 <section class="text-center">
   <div class="p-5 bg-image" 
-style=" background-image: url({{ url_for('static', filename='img/login-img.jpg') }});
-height: 300px;
-">
+  style=" background-image: url({{ url_for('static', filename='img/login-img.jpg') }});
+  height: 300px;
+  ">
 </div>
 
 <!-- Background image -->
@@ -41,7 +41,7 @@ style="
           
             <form action="{{ url_for('delete_account') }}" method="POST" id="delete-account-form">
               <div class="my-3">
-                <button type="submit" class="btn btn-danger btn-lg">Delete Account</button>
+                <button type="submit" class="btn btn-danger btn-lg" name="delete_account" value="true">Delete Account</button>
           </form>
         </div>
     </div>
