@@ -2,11 +2,63 @@
   {
     "username": "william",
     "password": "123",
-    "email": "william@gmail.com"
+    "email": "william@gmail.com",
+    "data": [
+      {
+        "keyword": "apple",
+        "type": "GEO_MAP_0",
+        "fetch": "Fail",
+        "image": ""
+      }
+    ]
   },
   {
-    "username": "123",
-    "password": "321",
-    "email": "123@gmail.com"
+    "username": "test",
+    "password": "456",
+    "email": "test@gmail.com",
+    "data": [
+      {
+        "keyword": "\u8fea\u58eb\u5c3c",
+        "type": "RELATED_QUERIES",
+        "fetch": "Fail",
+        "image": ""
+      },
+      {
+        "keyword": "ocean park",
+        "type": "RELATED_QUERIES",
+        "fetch": "Successful",
+        "image": "static/img/ocean park_queries.png"
+      },
+      {
+        "keyword": "\u65e5\u672c",
+        "type": "RELATED_QUERIES",
+        "fetch": "Fail",
+        "image": ""
+      },
+      {
+        "keyword": "\"\u65b0\u52a0\u5761\"",
+        "type": "GEO_MAP_0",
+        "fetch": "Fail",
+        "image": ""
+      },
+      {
+        "keyword": "\u6cf0\u570b",
+        "type": "GEO_MAP_0",
+        "fetch": "Successful",
+        "image": "static/img/\u6cf0\u570b_region.png"
+      },
+      {
+        "keyword": "\u4e94\u6708\u5929",
+        "type": "RELATED_QUERIES",
+        "fetch": "Fail",
+        "image": ""
+      },
+      {
+        "keyword": "Black pink",
+        "type": "RELATED_QUERIES",
+        "fetch": "Fail",
+        "image": ""
+      }
+    ]
   }
 ]

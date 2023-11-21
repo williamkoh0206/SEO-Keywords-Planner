@@ -1,30 +1,47 @@
 {% extends "base.html" %}
 {% block title %}Edit Account{% endblock %}
 {% block content %}
-<section class="text-center">
-  <div class="p-5 bg-image" 
-  style=" background-image: url({{ url_for('static', filename='img/login-img.jpg') }});
-  height: 300px;
-  ">
-</div>
-
-<!-- Background image -->
-
-<div class="card mx-4 mx-md-5 shadow-5-strong login-card"
-style="
-  margin-top: -100px;
-  background: hsla(202, 65%, 81%, 0.8);
-  backdrop-filter: blur(30px);
-"
->
-  <div class="card-body py-5 px-md-5">
-    {% if updated or username or email%}
+<div class="container text-center my-5">
+  {% if updated %}
+  <div class="alert alert-success pb-1 my-4" role="alert">
+    <p class="text-center">Password has been updated!</p>
+  </div>
+  {%endif %}
+  <h3 class="account-title">{{username}} Search History</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Keyword</th>
+        <th>Type</th>
+        <th>Result</th>
+        <th>Image</th>
+        <th>Download</th>
+      </tr>
+    </thead>
+    {% for data in user_data %}
+    <tr>
+      <td>{{ data.keyword }}</td>
+      <td>{{ data.type }}</td>
+      <td>{{ data.fetch }}</td>
+      <td>{{ data.image.split('/')[-1].split('.')[0] }}</td>
+      {% if data.image %}
+      <td>
+      <a class="btn btn-primary" 
+      href="{{ url_for('static', filename=data['image'][7:])}}" download>
+        Download
+      </a>
+      {% else %}
+      <td>
+        <p>NO IMAGE PROVIDED</p>
+      </td>
+      {%endif %}
+    </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% if updated or username or email%}
+  <div class="card-body py-5 px-md-5" style="background: hsla(202, 65%, 81%, 0.8);">
     <div class="row d-flex justify-content-center">
-      {% if updated %}
-        <div class="alert alert-success pb-1 my-4" role="alert">
-          <p class="text-center">Modified successfully!</p>
-        </div>
-        {%endif %}
         <div class="col-lg-8">
           <h3 class="account-title">Update User Information</h3>
           <form action="{{ url_for('update_info') }}" method="POST">
@@ -44,9 +61,8 @@ style="
                 <button type="submit" class="btn btn-danger btn-lg" name="delete_account" value="true">Delete Account</button>
           </form>
         </div>
-    </div>
-    {% endif %}
+  </div>
+  {% endif %}
   </div>
 </div>
-</section>
 {% endblock %}

@@ -44,11 +44,37 @@ def keyword_search(keyword,type):
     elif type == 'RELATED_TOPICS':
         top3_data = [item['title'] for item in data_list[:3]]
     image_filename = ''
+    search_result = ''
+    if (data_list):
+        search_result = 'Successful'
+    elif (not data_list):
+        search_result = 'Fail'
     print('empytDataList: ',not data_list)
     print('fetched data',data_list)
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
+    user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
+    existing_users = []
+    if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
+        with open(user_file_path, 'r') as file:
+            try:
+                existing_users = json.load(file)
+            except json.decoder.JSONDecodeError:
+                pass
+    for user in existing_users:
+        if user['username'] == username:
+            # Append keyword, type, and image path to the JSON file
+            user_search_record = {
+                "keyword": keyword,
+                "type": type,
+                "fetch":search_result,
+                "image": image_filename
+            }
+            user.setdefault('data', []).append(user_search_record)
+            with open(user_file_path, 'w') as file:
+                json.dump(existing_users, file, indent=2)
+            break
     return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home',logged_in=logged_in, username=username)
 
 @app.route("/demo",methods = ['GET','POST'])
@@ -139,8 +165,6 @@ def signup():
         # Create a dictionary with the user data
         user_data = {'username': username, 'password': password,'email':email}
         password = password
-        # Create a dictionary with the user data
-        user_data = {'username': username, 'password': password,'email':email}
 
         # Get the path to the user JSON file
         user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
@@ -219,20 +243,42 @@ def update_info():
                         user['email'] = email
                     if password:
                         user['password'] = password
-
+                    if 'data' in user:
+                        user_data = user['data']
+                        if len(user['data']) > 0:
+                            keyword = user['data'][-1]['keyword']
+                            keyword_type = user['data'][-1]['type']
+                            result = user['data'][-1]['fetch']
+                            image_filename = user['data'][-1]['image']
+                        break
+                current_username = session.get('username')
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
 
             return render_template('update_info.html', active_page='update_info', updated=True, logged_in=True,
-                                   username=username, email=email)
+                                   current_username=current_username,username=username, email=email,keyword=keyword,keyword_type=keyword_type,result=result,image_filename=image_filename,user_data=user_data)
         else:
             for user in existing_users:
                 if user['username'] == username:
-                    email = user['email']
+                    email = user['email']                   
+                if 'data' in user:
+                    user_data = user['data']
+                    if len(user_data) > 0:
+                        keyword = user['data'][-1]['keyword']
+                        keyword_type = user['data'][-1]['type']
+                        result = user['data'][-1]['fetch']
+                        image_filename = user['data'][-1]['image']
+                    else:
+                        keyword=None
+                        keyword_type=None
+                        result=None
+                        image_filename=None
                     break
-
-            return render_template('update_info.html', username=username, email=email, active_page='update_info',
-                                   logged_in=True)
+                #current_username = session.get('username')
+                # print('current',current_username)
+                # print('existing_users',existing_users)
+            return render_template('update_info.html', username=username,email=email, active_page='update_info',
+                                   logged_in=True,keyword=keyword,keyword_type=keyword_type,result=result,image_filename=image_filename,user_data=user_data)
     else:
         return redirect(url_for('login'))
 
