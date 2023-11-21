@@ -94,26 +94,33 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if not username or not password:
-            return "Username and password are required", 400
-
+        if not username and not password:
+            error_message = "Username and password are required"
+            return render_template('login.html',active_page='login',username=username,password=password,error_message=error_message)
+        elif not username and password:
+            error_message = "Username is required"
+            return render_template('login.html',active_page='login',username=username,password=password,error_message=error_message)
+        elif not password and username:
+            error_message = "Password is required"
+            return render_template('login.html',active_page='login',username=username,password=password,error_message=error_message)
+        else:
         # Get the path to the user JSON file
-        user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
+            user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
 
-        existing_users = []
-        if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
-            with open(user_file_path, 'r') as file:
-                try:
-                    existing_users = json.load(file)
-                except json.decoder.JSONDecodeError:
-                    pass
+            existing_users = []
+            if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
+                with open(user_file_path, 'r') as file:
+                    try:
+                        existing_users = json.load(file)
+                    except json.decoder.JSONDecodeError:
+                        pass
 
-        for user in existing_users:
-            if user['username'] == username and user['password'] == password:
-                session['username'] = user['username']
-                return redirect(url_for('home'))
-
-        return render_template('login.html',active_page='login',username=username)
+            for user in existing_users:
+                if user['username'] == username and user['password'] == password:
+                    session['username'] = user['username']
+                    return redirect(url_for('home'))
+            error_message = "Invalid username or password"
+            return render_template('login.html',active_page='login',username=username,password=password,error_message=error_message)
 
     return render_template('login.html',active_page = 'login')
 
@@ -126,7 +133,8 @@ def signup():
         email = request.form.get('email')
         # Validate the data (add more validation as needed)
         if not username or not password or not email:
-            return "Username and password and email are required", 400
+            signup_error = "Username, password and email are required"
+            return render_template('signup.html',active_page='signup',username=username,password=password,email=email,signup_error=signup_error)
         # Create a dictionary with the user data
         user_data = {'username': username, 'password': password,'email':email}
         password = password
@@ -148,7 +156,6 @@ def signup():
         # Check if the username already exists
         for user in existing_users:
             if user['username'] == username:
-                #return "Username already exists", 400
                 return render_template('signup.html',active_page='signup',username=username)
     
         # Add the new user data to the existing users
