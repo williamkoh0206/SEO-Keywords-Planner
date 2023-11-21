@@ -172,57 +172,63 @@ def signout():
 
 @app.route('/update_info', methods=['GET', 'POST'])
 def update_info():
+    
     if 'username' in session:
+        user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
+        existing_users = []
+        
+        if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
+            with open(user_file_path, 'r') as file:
+                try:
+                    existing_users = json.load(file)
+                except json.decoder.JSONDecodeError:
+                    pass
+        
+        username = session['username']
+        email = None
+        password = None
+
         if request.method == 'POST':
-            user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
-            
-            # Read existing user data from the file
-            existing_users = []
-            if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
-                with open(user_file_path, 'r') as file:
-                    try:
-                        existing_users = json.load(file)
-                    except json.decoder.JSONDecodeError:
-                        pass
-            username = session.get('username')
+            if 'delete_account' in request.form:
+                # Delete account functionality
+                username_to_delete = session['username']
+                updated_users = [user for user in existing_users if user['username'] != username_to_delete]
+                
+                with open(user_file_path, 'w') as file:
+                    json.dump(updated_users, file, indent=2)
+                
+                session.pop('username', None)
+                
+                return redirect(url_for('login'))
+
+            # Update info functionality
             email = request.form.get('email')
             password = request.form.get('password')
-            print(password)
-            print(len(password))
+            
             for user in existing_users:
                 if user['username'] == username:
-                    print(user['password'])
-                    user['email'] = email
-                    if len(password) == 0:
-                        print("liuyi2b")
-                        newpassword = user['password']
-                    else:
-                        newpassword = password
-                    print(newpassword)
-                    user['password'] = newpassword
-            print(existing_users)
+                    if email:
+                        user['email'] = email
+                    if password:
+                        user['password'] = password
+
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
 
-            return render_template('update_info.html',active_page='update_info',updated=True,logged_in=True,username=username,email=email)
+            return render_template('update_info.html', active_page='update_info', updated=True, logged_in=True,
+                                   username=username, email=email)
         else:
-            user_file_path = os.path.join(app.static_folder, 'users', 'users.json')
-            username = session.get('username')
-            existing_users = []
-            if os.path.exists(user_file_path) and os.path.getsize(user_file_path) > 0:
-                with open(user_file_path, 'r') as file:
-                    try:
-                        existing_users = json.load(file)
-                    except json.decoder.JSONDecodeError:
-                        pass
             for user in existing_users:
                 if user['username'] == username:
                     email = user['email']
-            return render_template('update_info.html', username=username, email=email,active_page = 'update_info',logged_in=True)
+                    break
+
+            return render_template('update_info.html', username=username, email=email, active_page='update_info',
+                                   logged_in=True)
     else:
         return redirect(url_for('login'))
 
-@app.route('/delete_account')
+@app.route('/delete_account', methods=['GET', 'POST'])
 def delete_account():
 
     # Check if the user is logged in
@@ -251,10 +257,10 @@ def delete_account():
         session.pop('username', None)
         
         # Redirect to the login page
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     else:
         # Redirect to the login page if not logged in
         return redirect(url_for('login'))
-
+    
 if __name__ == '__main__':
     app.run(debug="True")
