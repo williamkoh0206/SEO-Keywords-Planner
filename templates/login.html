@@ -22,9 +22,9 @@
     >
       <div class="card-body py-5 px-md-5">
         <div class="row d-flex justify-content-center">
-          {% if username %}
+          {% if error_message %}
           <div class="alert alert-danger error-signup-alert pb-1" role="alert">
-            <p class="text-center">Invalid username or password</p>
+            <p class="text-center">{{error_message}}</p>
           </div>
           {% endif %}
           <div class="col-lg-8">

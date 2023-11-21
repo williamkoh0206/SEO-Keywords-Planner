@@ -19,9 +19,9 @@
     <!-- Jumbotron -->
     <div class="container py-4">
       <div class="row g-0 align-items-center">
-        {% if username%}
+        {% if signup_error %}
         <div class="alert alert-danger error-signup-alert pb-1" role="alert">
-          <p class="text-center">Username already exists</p>
+          <p class="text-center">{{signup_error}}</p>
         </div>
         {% endif %}
         <div class="col-lg-6 mb-5 mb-lg-0">
@@ -45,7 +45,7 @@
                   <input type="password" id="form3Example2" class="form-control" name="password"/>
                   <label class="form-label" for="form3Example2">Password</label>
                 </div>
-                                  <div class="form-outline mb-4">
+                <div class="form-outline mb-4">
                   <input type="email" id="form3Example3" class="form-control" name="email"/>
                   <label class="form-label" for="form3Example3">Email</label>
                 </div>

@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from pylab import mpl
-mpl.rcParams['font.sans-serif'] = ['SimHei']
+mpl.rcParams['font.sans-serif'] = ['MingLiU']
 from Get_Continent import *
 # keyword = "youtube"
 # type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
