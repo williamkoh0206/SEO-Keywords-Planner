@@ -12,10 +12,11 @@ def jsonHandler(type):
     result = []
     if type == "cityu_region.json":
         for item in data:
-            short_form = item['location_in_short']
+            loc_short_form = item['location_in_short']
             location = item['location']
             continent_value = item['continent_value']
-            result.append({'location_in_short': short_form, 'location': location, 'continent_value': continent_value})
+            continent_match = continent[continent['country'] == loc_short_form]['continent'].values[0]
+            result.append({'location_in_short': loc_short_form, 'location': location, 'continent_value': continent_value,'continent':continent_match})
 
     elif type == "cityu_queries.json":
         for item in data:
@@ -29,6 +30,7 @@ def jsonHandler(type):
             topic_type = item['type']
             topic_value = item['value']
             result.append({'Topic': title, 'Topic_Type': topic_type, 'value': topic_value})
+    #print(result)
     return result
 
 def chart(type):
@@ -62,10 +64,10 @@ def chart(type):
         df['queries_value'] = df['queries_value'].str.extract('(\d+)')
         df['queries_value'] = df['queries_value'].astype('int')
         fig, ax = plt.subplots()
-        ax.bar(df['queries_title'], df['queries_value'])
+        ax.barh(df['queries_title'], df['queries_value'])
         for s in ['top', 'bottom', 'left', 'right']:
             ax.spines[s].set_visible(False)
-        plt.xticks(rotation=90, ha='center', fontsize=8)
+        plt.xticks(rotation=0, ha='center', fontsize=8)
         ax.grid(color='grey',
                 linestyle='-.', linewidth=0.5,
                 alpha=0.2)
@@ -98,9 +100,10 @@ def chart(type):
         plt.close()
         return img_src
 
-jsonHandler('cityu_topics.json')
+jsonHandler('cityu_region.json')
+
 '''
-related_topics.json
-related_queries.json
-interest_by_region.json
+cityu_topics.json
+cityu_queries.json
+cityu_region.json
 '''

@@ -62,9 +62,10 @@
     </div>
   </div>
   {% endif %}
+
   <div class="container mt-4">
-    {% if demo_keyword %}
-    <h3 id="demo_keywordValue" class="keyword_result">Keyword results for {{demo_keyword}}</h3>
+    {% if demo_keyword == 'cityu' or demo_keyword == 'Cityu'%}
+     <h3 id="demo_keywordValue" class="keyword_result">Keyword results for {{demo_keyword}}</h3>
       {% if demo_type == "GEO_MAP_0"%}
       <div class="alert alert-info" role="alert">
         <p class="mb-1">The top3 highest locations are:</p>
@@ -73,9 +74,10 @@
           <li><span class="fw-bold">{{ location }}</span></li>
           {% endfor %}
         </ol>
-        <p><span class="fw-bold">*Continent: </span>Identify each region for grouping</p>
+        <p><span class="fw-bold">*Location(short-form): </span>matching the related continent</p>
         <p style="margin-top:-20px;"><span class="fw-bold">*Location: </span>particular region</p>
         <p style="margin-top:-20px;"><span class="fw-bold">*Value: </span>100:highest popularity | 0:lowest popularity</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Continent: </span>grouping the region</p>
       </div>
       {% elif demo_type == "RELATED_QUERIES"%}
       <div class="alert alert-info" role="alert">
@@ -100,48 +102,53 @@
         <p style="margin-top:-20px;"><span class="fw-bold">*Types: </span>Types of the topics</p>
         <p style="margin-top:-20px;"><span class="fw-bold">*Value: </span>100:highly related | 0:lowest related</p>
       </div>
-      {% endif %}
-    {% endif %} 
-    {% if demo_data %}
-    <table id="searchResultsTable" class="table table-striped">
-        <thead>
-          <tr class="searchResultColumn">
-            {% if demo_type == "GEO_MAP_0" %}
-            <th id="col-1">Continent(short-form)</th>
-            <th id="col-2">Location</th>
-            <th id="col-3">Value</th>
-            {% elif demo_type == "RELATED_QUERIES" %}
-            <th id="col-1">Queries</th>
-            <th id="col-2">Value(%)</th>
-            {% elif demo_type == "RELATED_TOPICS" %}
-            <th id="col-1">Topics</th>
-            <th id="col-2">Types</th>
-            <th id="col-3">Value(%)</th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in demo_data %}
-          <tr>
-            {% for key, value in item.items() %}
-            <td>{{ value }}</td>
+      {% endif %} 
+      {% if demo_data %}
+      <table id="searchResultsTable" class="table table-striped">
+          <thead>
+            <tr class="searchResultColumn">
+              {% if demo_type == "GEO_MAP_0" %}
+              <th id="col-1">Location(short-form)</th>
+              <th id="col-2">Location</th>
+              <th id="col-3">Value</th>
+              <th id="col-4">Continent</th>
+              {% elif demo_type == "RELATED_QUERIES" %}
+              <th id="col-1">Queries</th>
+              <th id="col-2">Value(%)</th>
+              {% elif demo_type == "RELATED_TOPICS" %}
+              <th id="col-1">Topics</th>
+              <th id="col-2">Types</th>
+              <th id="col-3">Value(%)</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in demo_data %}
+            <tr>
+              {% for key, value in item.items() %}
+              <td>{{ value }}</td>
+              {% endfor %}
+            </tr>
             {% endfor %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% if demo_chart %}
-      <div class="mb-3 text-center">
-        <h4 class='keyword_result'>Chart Image</h4>
-        <img src = "{{demo_chart}}" />
-        <br>
-        <a class="btn btn-primary my-3 w-25" 
-        href="{{ demo_chart }}" 
-        download="cityu_{{ demo_type_dict.get(demo_type) }}.png">
-          Download
-      </a>
+          </tbody>
+        </table>
+        {% if demo_chart %}
+        <div class="mb-3 text-center">
+          <h4 class='keyword_result'>Chart Image</h4>
+          <img src = "{{demo_chart}}" />
+          <br>
+          <a class="btn btn-primary my-3 w-25" 
+          href="{{ demo_chart }}" 
+          download="cityu_{{ demo_type_dict.get(demo_type) }}.png">
+            Download
+        </a>
+        </div>
+        {% endif%}
+      {% endif %}
+    {% elif demo_keyword and demo_keyword != 'cityu' and demo_keyword != 'Cityu' %}
+      <div class="alert alert-warning" role="alert">
+        <p class="text-center my-2">Only cityu keyword is allowed for demo page.</p>
       </div>
-      {% endif%}
-    {%endif%}
-  </div>
+    {% endif %}  
+</div>
 {% endblock %}

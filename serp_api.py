@@ -41,7 +41,8 @@ def fetch_data(keyword,type):
                 location = {
                     "location_in_short": item['geo'],
                     "location": item["location"],
-                    "continent_value": item["value"]
+                    "continent_value": item["value"],
+                    'continent_match': continent.loc[continent['country'] == item["geo"], 'continent'].values[0]
                 }
                 data_list.append(location)
             df = pd.DataFrame.from_dict(data_list)

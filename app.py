@@ -61,6 +61,7 @@ def demo():
         print('demo_keyword',demo_keyword)
         print('demo_type',demo_type)
         return redirect(url_for('demo_keyword_search', demo_keyword=demo_keyword, demo_type=demo_type)) 
+    print('demo keyword: ',demo_keyword)
     return render_template('demo.html',active_page = 'demo',logged_in=False)
 
 @app.route('/demo/<demo_keyword>/<demo_type>', methods=['GET', 'POST'])
