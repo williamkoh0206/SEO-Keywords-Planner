@@ -78,10 +78,10 @@ def fetch_data(keyword,type):
             df['queries_value'] = df['queries_value'].str.extract('(\d+)')
             df['queries_value'] = df['queries_value'].astype('int')
             fig, ax = plt.subplots()
-            ax.bar(df['queries_title'], df['queries_value'])
+            ax.barh(df['queries_title'], df['queries_value'])
             for s in ['top', 'bottom', 'left', 'right']:
                 ax.spines[s].set_visible(False)
-            plt.xticks(rotation=90, ha='center', fontsize=6)
+            plt.xticks(rotation=0, ha='center', fontsize=6)
             ax.grid(color='grey',
                     linestyle='-.', linewidth=0.5,
                     alpha=0.2)
