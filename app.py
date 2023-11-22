@@ -5,6 +5,7 @@ import os
 from demo_data_handler import jsonHandler,chart
 
 app = Flask(__name__)
+app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
 
 @app.route("/",methods=['GET', 'POST'])
 def home():
@@ -216,7 +217,7 @@ def signout():
     # Redirect to the login page or any other desired page
     return redirect(url_for('login'))
 
-@app.route('/update_info', methods=['GET', 'POST'])
+@app.route('/account', methods=['GET', 'POST'])
 def update_info():
     
     if 'username' in session:
