@@ -8,12 +8,13 @@
   </div>
   {%endif %}
   <h3 class="account-title">{{username}} Search History</h3>
+  {% if user_data %}
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Keyword</th>
         <th>Type</th>
-        <th>Result</th>
+        <th>Keywords_data</th>
         <th>Image</th>
         <th>Download</th>
       </tr>
@@ -22,7 +23,7 @@
     <tr>
       <td>{{ data.keyword }}</td>
       <td>{{ data.type }}</td>
-      <td>{{ data.fetch }}</td>
+      <td>{{ data.keywords_data }}</td>
       <td>{{ data.image.split('/')[-1].split('.')[0] }}</td>
       {% if data.image %}
       <td>
@@ -39,6 +40,13 @@
     </tr>
     {% endfor %}
   </table>
+  {% elif not user_data %}
+  <div class="alert alert-warning" role="alert">
+    <p class="text-center my-2">No search history</p>
+  </div>
+  {% endif %}
+
+
   {% if updated or username or email%}
   <div class="card-body py-5 px-md-5" style="background: hsla(202, 65%, 81%, 0.8);">
     <div class="row d-flex justify-content-center">

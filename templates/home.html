@@ -66,10 +66,14 @@
   <h3 id="keywordValue" class="keyword_result">Keyword results for {{keyword}}</h3>
     {% if type == "GEO_MAP_0"%}
     <div class="alert alert-info" role="alert">
+      {% if num_locations >=3 %}
       <p class="mb-1">The top3 highest locations are:</p>
+      {% else %}
+      <p class="mb-1">The top{{num_locations}} highest locations are:</p>
+      {% endif %}
       <ol>
-        {% for location in top3_data %}
-        <li><span class="fw-bold">{{ location }}</span></li>
+        {% for location in top3_data or locations %}
+          <li><span class="fw-bold">{{ location }}</span></li>
         {% endfor %}
       </ol>
       <p><span class="fw-bold">*Location(short-form): </span>matching the related continent</p>
@@ -79,10 +83,14 @@
     </div>
     {% elif type == "RELATED_QUERIES"%}
     <div class="alert alert-info" role="alert">
+      {% if num_queries >=3 %}
       <p class="mb-1">The top3 hot seach keywords are:</p>
+      {% else %}
+      <p class="mb-1">The top{{num_queries}} hot seach keywords are:</p>
+      {% endif %}
       <ol>
-        {% for location in top3_data %}
-        <li><span class="fw-bold">{{ location }}</span></li>
+        {% for query in top3_data or queries %}
+          <li><span class="fw-bold">{{ query }}</span></li>
         {% endfor %}
       </ol>
       <p><span class="fw-bold">*Queries: </span>other related searching keywords</p>
@@ -90,10 +98,14 @@
     </div>
     {% elif type == "RELATED_TOPICS"%}
     <div class="alert alert-info" role="alert">
+      {% if num_titles >=3 %}
       <p class="mb-1">The top3 prevalent topics are:</p>
+      {% else %}
+      <p class="mb-1">The top{{num_titles}} prevalent topics are:</p>
+      {% endif %}
       <ol>
-        {% for location in top3_data %}
-        <li><span class="fw-bold">{{ location }}</span></li>
+        {% for topic in top3_data or titles %}
+          <li><span class="fw-bold">{{ topic }}</span></li>
         {% endfor %}
       </ol>
       <p><span class="fw-bold">*Topics: </span>suggested topics for the searching keyword</p>

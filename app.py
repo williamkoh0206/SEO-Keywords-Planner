@@ -3,10 +3,8 @@ from serp_api import fetch_data
 import json
 import os
 from demo_data_handler import jsonHandler,chart
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "9773e89f69e69285cf11c10cbc44a37945f6abbc5d78d5e20c2b1b0f12d75ab7"
 
 @app.route("/",methods=['GET', 'POST'])
 def home():
@@ -35,20 +33,35 @@ def keyword_search(keyword,type):
         updated_keyword = request.form.get('keyword')
         updated_type = request.form.get('type') 
         return redirect(url_for('keyword_search', keyword=updated_keyword, type=updated_type))    
-
+    
+    queries = None
+    locations = None
+    titles = None
+    num_locations = None
+    num_queries = None
+    num_titles = None
     data_list = fetch_data(keyword,type)
     if type == 'GEO_MAP_0':
-        top3_data = [item['location'] for item in data_list[:3]]
+        locations = [item.get('location') for item in data_list if 'location' in item]
+        num_locations = len(locations)
+        print(locations)
+        #handle if the returned location value is less than 3
+        top3_data = locations[:3] if num_locations >= 3 else locations
     elif type == 'RELATED_QUERIES':
-        top3_data = [item['queries_title'] for item in data_list[:3]]
+        queries = [item.get('queries_title') for item in data_list if 'queries_title' in item]
+        num_queries = len(queries)
+        #handle if the returned queries value is less than 3
+        top3_data = queries[:3] if num_queries >= 3 else queries
     elif type == 'RELATED_TOPICS':
-        top3_data = [item['title'] for item in data_list[:3]]
+        titles = [item.get('title') for item in data_list if 'title' in item]
+        num_titles = len(titles)
+        top3_data = titles[:3] if num_titles >= 3 else titles
     image_filename = ''
     search_result = ''
     if (data_list):
-        search_result = 'Successful'
+        search_result = 'Yes'
     elif (not data_list):
-        search_result = 'Fail'
+        search_result = 'No'
     print('empytDataList: ',not data_list)
     print('fetched data',data_list)
     if len(data_list) > 0:
@@ -68,14 +81,15 @@ def keyword_search(keyword,type):
             user_search_record = {
                 "keyword": keyword,
                 "type": type,
-                "fetch":search_result,
+                "keywords_data":search_result,
                 "image": image_filename
             }
             user.setdefault('data', []).append(user_search_record)
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=2)
             break
-    return render_template('home.html', data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home',logged_in=logged_in, username=username)
+    return render_template('home.html', 
+                           data_list=data_list, image_filename=image_filename,type=type,keyword = keyword,top3_data=top3_data,active_page='home',logged_in=logged_in, username=username,locations=locations,queries=queries,titles=titles,num_locations=num_locations,num_queries=num_queries,num_titles=num_titles)
 
 @app.route("/demo",methods = ['GET','POST'])
 def demo():
@@ -219,6 +233,11 @@ def update_info():
         username = session['username']
         email = None
         password = None
+        keyword = None
+        keyword_type = None
+        result = None
+        image_filename = None
+        user_data = None
 
         if request.method == 'POST':
             if 'delete_account' in request.form:
@@ -248,35 +267,29 @@ def update_info():
                         if len(user['data']) > 0:
                             keyword = user['data'][-1]['keyword']
                             keyword_type = user['data'][-1]['type']
-                            result = user['data'][-1]['fetch']
+                            result = user['data'][-1]['keywords_data']
                             image_filename = user['data'][-1]['image']
                         break
-                current_username = session.get('username')
             with open(user_file_path, 'w') as file:
                 json.dump(existing_users, file, indent=4)
-
             return render_template('update_info.html', active_page='update_info', updated=True, logged_in=True,
-                                   current_username=current_username,username=username, email=email,keyword=keyword,keyword_type=keyword_type,result=result,image_filename=image_filename,user_data=user_data)
+                                   username=username, email=email,keyword=keyword,keyword_type=keyword_type,result=result,image_filename=image_filename,user_data=user_data)
         else:
             for user in existing_users:
+                # print('User:',user)
+                # print('UserName:',username)
+                # print('username: ',user['username'])
+                # print('existing_user:',existing_users)
                 if user['username'] == username:
                     email = user['email']                   
-                if 'data' in user:
-                    user_data = user['data']
-                    if len(user_data) > 0:
-                        keyword = user['data'][-1]['keyword']
-                        keyword_type = user['data'][-1]['type']
-                        result = user['data'][-1]['fetch']
-                        image_filename = user['data'][-1]['image']
-                    else:
-                        keyword=None
-                        keyword_type=None
-                        result=None
-                        image_filename=None
-                    break
-                #current_username = session.get('username')
-                # print('current',current_username)
-                # print('existing_users',existing_users)
+                    if 'data' in user:
+                        user_data = user['data']
+                        if len(user_data) > 0:
+                            keyword = user['data'][-1]['keyword']
+                            keyword_type = user['data'][-1]['type']
+                            result = user['data'][-1]['keywords_data']
+                            image_filename = user['data'][-1]['image']
+                        break
             return render_template('update_info.html', username=username,email=email, active_page='update_info',
                                    logged_in=True,keyword=keyword,keyword_type=keyword_type,result=result,image_filename=image_filename,user_data=user_data)
     else:

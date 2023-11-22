@@ -1,64 +1,166 @@
 [
-  {
-    "username": "william",
-    "password": "123",
-    "email": "william@gmail.com",
-    "data": [
-      {
-        "keyword": "apple",
-        "type": "GEO_MAP_0",
-        "fetch": "Fail",
-        "image": ""
-      }
-    ]
-  },
-  {
-    "username": "test",
-    "password": "456",
-    "email": "test@gmail.com",
-    "data": [
-      {
-        "keyword": "\u8fea\u58eb\u5c3c",
-        "type": "RELATED_QUERIES",
-        "fetch": "Fail",
-        "image": ""
-      },
-      {
-        "keyword": "ocean park",
-        "type": "RELATED_QUERIES",
-        "fetch": "Successful",
-        "image": "static/img/ocean park_queries.png"
-      },
-      {
-        "keyword": "\u65e5\u672c",
-        "type": "RELATED_QUERIES",
-        "fetch": "Fail",
-        "image": ""
-      },
-      {
-        "keyword": "\"\u65b0\u52a0\u5761\"",
-        "type": "GEO_MAP_0",
-        "fetch": "Fail",
-        "image": ""
-      },
-      {
-        "keyword": "\u6cf0\u570b",
-        "type": "GEO_MAP_0",
-        "fetch": "Successful",
-        "image": "static/img/\u6cf0\u570b_region.png"
-      },
-      {
-        "keyword": "\u4e94\u6708\u5929",
-        "type": "RELATED_QUERIES",
-        "fetch": "Fail",
-        "image": ""
-      },
-      {
-        "keyword": "Black pink",
-        "type": "RELATED_QUERIES",
-        "fetch": "Fail",
-        "image": ""
-      }
-    ]
-  }
+    {
+        "username": "test",
+        "password": "321",
+        "email": "test@gmail.com",
+        "data": [
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "openai",
+                "type": "GEO_MAP_0",
+                "keywords_data": "Yes",
+                "image": "static/img/openai_region.png"
+            },
+            {
+                "keyword": "hku",
+                "type": "RELATED_QUERIES",
+                "keywords_data": "Yes",
+                "image": "static/img/hku_queries.png"
+            },
+            {
+                "keyword": "hku",
+                "type": "RELATED_QUERIES",
+                "keywords_data": "Yes",
+                "image": "static/img/hku_queries.png"
+            },
+            {
+                "keyword": "hku",
+                "type": "RELATED_QUERIES",
+                "keywords_data": "Yes",
+                "image": "static/img/hku_queries.png"
+            },
+            {
+                "keyword": "hku",
+                "type": "RELATED_TOPICS",
+                "keywords_data": "No",
+                "image": ""
+            },
+            {
+                "keyword": "chatgpt",
+                "type": "GEO_MAP_0",
+                "keywords_data": "No",
+                "image": ""
+            },
+            {
+                "keyword": "chatgpt",
+                "type": "RELATED_QUERIES",
+                "keywords_data": "No",
+                "image": ""
+            },
+            {
+                "keyword": "chatgpt",
+                "type": "RELATED_TOPICS",
+                "keywords_data": "Yes",
+                "image": "static/img/chatgpt_topics.png"
+            }
+        ]
+    },
+    {
+        "username": "william",
+        "password": "1234",
+        "email": "william@gmail.com",
+        "data": [
+            {
+                "keyword": "\u4e94\u6708\u5929",
+                "type": "RELATED_QUERIES",
+                "keywords_data": "Yes",
+                "image": "static/img/\u4e94\u6708\u5929_queries.png"
+            },
+            {
+                "keyword": "mayday",
+                "type": "GEO_MAP_0",
+                "keywords_data": "No",
+                "image": ""
+            }
+        ]
+    }
 ]
