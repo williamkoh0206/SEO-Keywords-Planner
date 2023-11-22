@@ -79,6 +79,7 @@ def fetch_data(keyword,type):
             df['queries_value'] = df['queries_value'].astype('int')
             fig, ax = plt.subplots()
             ax.barh(df['queries_title'], df['queries_value'])
+            ax.invert_yaxis()
             for s in ['top', 'bottom', 'left', 'right']:
                 ax.spines[s].set_visible(False)
             plt.xticks(rotation=0, ha='center', fontsize=6)
