@@ -121,8 +121,8 @@ def fetch_data(keyword,type):
             data_list.append({"image_filename": image_filename})
             plt.close()
             #plt.show()
-    #print(df)
+    #print(data_list)
     return data_list
 __all__ = ['fetch_data']
 #Each time print = call once api or once (Free: 100 tokens)
-#fetch_data('cityu','RELATED_TOPICS')
+#fetch_data('openai','GEO_MAP_0')
