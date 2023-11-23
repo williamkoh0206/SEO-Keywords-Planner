@@ -1,11 +1,17 @@
 from serpapi.google_search import GoogleSearch
 import pandas as pd
 import matplotlib
+import platform
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from pylab import mpl
-mpl.rcParams['font.sans-serif'] = ['MingLiU']
 from Get_Continent import *
+
+print('Your OS platform: ',platform.system())
+if platform.system() == 'Windows':
+    mpl.rcParams['font.sans-serif'] = 'MingLiU'
+elif platform.system() == 'Darwin': #For macos users
+    mpl.rcParams['font.sans-serif'] = 'PingFang HK' 
 # keyword = "youtube"
 # type = ["GEO_MAP_0","RELATED_QUERIES","RELATED_TOPICS"]
 # key = ["interest_by_region","related_queries","related_topics"] 
