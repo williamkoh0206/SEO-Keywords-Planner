@@ -12,11 +12,11 @@ def jsonHandler(type):
     result = []
     if type == "cityu_region.json":
         for item in data:
-            loc_short_form = item['location_in_short']
             location = item['location']
-            continent_value = item['continent_value']
+            loc_short_form = item['location_in_short']
             continent_match = continent[continent['country'] == loc_short_form]['continent'].values[0]
-            result.append({'location_in_short': loc_short_form, 'location': location, 'continent_value': continent_value,'continent':continent_match})
+            continent_value = item['continent_value']
+            result.append({'location': location,'location_in_short': loc_short_form,'continent':continent_match,'continent_value': continent_value})
 
     elif type == "cityu_queries.json":
         for item in data:

@@ -45,10 +45,10 @@ def fetch_data(keyword,type):
         if type == "GEO_MAP_0":
             for item in results[key]:
                 location = {
-                    "location_in_short": item['geo'],
                     "location": item["location"],
-                    "continent_value": item["value"],
-                    'continent_match': continent.loc[continent['country'] == item["geo"], 'continent'].values[0]
+                    "location_in_short": item['geo'],
+                    'continent_match': continent.loc[continent['country'] == item["geo"], 'continent'].values[0],                 
+                    "continent_value": item["value"]             
                 }
                 data_list.append(location)
             df = pd.DataFrame.from_dict(data_list)

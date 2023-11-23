@@ -74,10 +74,10 @@
           <li><span class="fw-bold">{{ location }}</span></li>
           {% endfor %}
         </ol>
-        <p><span class="fw-bold">*Location(short-form): </span>matching the related continent</p>
-        <p style="margin-top:-20px;"><span class="fw-bold">*Location: </span>particular region</p>
+        <p><span class="fw-bold">*Location: </span>particular region</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Location(short-form): </span>matching the related continent</p>
+        <p style="margin-top:-20px;"><span class="fw-bold">*Continent: </span>continent of the location</p>
         <p style="margin-top:-20px;"><span class="fw-bold">*Value: </span>100:highest popularity | 0:lowest popularity</p>
-        <p style="margin-top:-20px;"><span class="fw-bold">*Continent: </span>grouping the region</p>
       </div>
       {% elif demo_type == "RELATED_QUERIES"%}
       <div class="alert alert-info" role="alert">
@@ -108,10 +108,10 @@
           <thead>
             <tr class="searchResultColumn">
               {% if demo_type == "GEO_MAP_0" %}
-              <th id="col-1">Location(short-form)</th>
-              <th id="col-2">Location</th>
-              <th id="col-3">Value</th>
-              <th id="col-4">Continent</th>
+              <th id="col-1">Location</th>
+              <th id="col-2">Location(short-form)</th>
+              <th id="col-3">Continent</th>
+              <th id="col-4">Value</th>
               {% elif demo_type == "RELATED_QUERIES" %}
               <th id="col-1">Queries</th>
               <th id="col-2">Value(%)</th>

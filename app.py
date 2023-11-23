@@ -64,7 +64,7 @@ def keyword_search(keyword,type):
     elif (not data_list):
         search_result = 'No'
     print('empytDataList: ',not data_list)
-    print('fetched data',data_list)
+    #print('fetched data',data_list)
     if len(data_list) > 0:
         image_filename = data_list[-1].get("image_filename")
         data_list = data_list[:-1]
