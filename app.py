@@ -251,7 +251,7 @@ def update_info():
                 
                 session.pop('username', None)
                 
-                return redirect(url_for('login'))
+                return redirect(url_for('signup'))
 
             # Update info functionality
             email = request.form.get('email')

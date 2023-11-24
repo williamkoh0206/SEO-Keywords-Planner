@@ -2,12 +2,36 @@
 {% block title %}Edit Account{% endblock %}
 {% block content %}
 <div class="container text-center my-5">
-  {% if updated %}
-  <div class="alert alert-success pb-1 my-4" role="alert">
-    <p class="text-center">Password has been updated!</p>
+  {% if updated or username or email%}
+  <div class="card-body py-5 px-md-5" style="background: hsl(202deg 53.51% 86.77% / 80%);">
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+          {% if updated %}
+          <div class="alert alert-success pb-1 my-4" role="alert">
+            <p class="text-center">Password has been updated!</p>
+          </div>
+          {%endif %}
+          <h3 class="account-title">Update User Information</h3>
+          <form action="{{ url_for('update_info') }}" method="POST">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" value="{{ username }}" readonly><br><br>
+            
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" value="{{ email }}"><br><br>
+            
+            <label for="password">New Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+            
+            <button type="submit" class="btn btn-primary btn-lg">Update</button>
+          
+            <form action="{{ url_for('delete_account') }}" method="POST" id="delete-account-form">
+              <div class="my-3">
+                <button type="submit" class="btn btn-danger btn-lg" name="delete_account" value="true">Delete Account</button>
+          </form>
+        </div>
   </div>
-  {%endif %}
-  <h3 class="account-title">{{username}} Search History</h3>
+  {% endif %}
+  <h3 class="account-title">User: {{username}}'s search history</h3>
   {% if user_data %}
   <table class="table table-striped">
     <thead>
@@ -43,32 +67,6 @@
   {% elif not user_data %}
   <div class="alert alert-warning" role="alert">
     <p class="text-center my-2">No search history</p>
-  </div>
-  {% endif %}
-
-
-  {% if updated or username or email%}
-  <div class="card-body py-5 px-md-5" style="background: hsla(202, 65%, 81%, 0.8);">
-    <div class="row d-flex justify-content-center">
-        <div class="col-lg-8">
-          <h3 class="account-title">Update User Information</h3>
-          <form action="{{ url_for('update_info') }}" method="POST">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" value="{{ username }}" readonly><br><br>
-            
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" value="{{ email }}"><br><br>
-            
-            <label for="password">New Password:</label><br>
-            <input type="password" id="password" name="password"><br><br>
-            
-            <button type="submit" class="btn btn-primary btn-lg">Update</button>
-          
-            <form action="{{ url_for('delete_account') }}" method="POST" id="delete-account-form">
-              <div class="my-3">
-                <button type="submit" class="btn btn-danger btn-lg" name="delete_account" value="true">Delete Account</button>
-          </form>
-        </div>
   </div>
   {% endif %}
   </div>
