@@ -129,7 +129,14 @@ def demo_keyword_search(demo_keyword,demo_type):
         demo_chart = chart('cityu_topics.json')
         top3_demo_data = [item['Topic'] for item in demo_data[:3]]
     return render_template('demo.html',active_page = 'demo',demo_data=demo_data,demo_chart=demo_chart,demo_keyword=demo_keyword,demo_type=demo_type,demo_type_dict=demo_type_dict,top3_demo_data=top3_demo_data)
-    
+
+@app.route('/about')
+def about():
+    username = session.get('username')
+    if username == None:
+        return render_template('about.html',active_page='about')
+    return render_template('about.html',active_page='about',logged_in=True,username=username)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

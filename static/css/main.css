@@ -34,7 +34,7 @@
     display: inline-block;
     width: 50%;
 }
-.keyword_result,.account-title{
+.keyword_result,.account-title,.about-title{
     color:#0d6efd;
 }
 #col-1,#col-2,#col-3,#col-4{
@@ -45,4 +45,11 @@
     background: hsl(202deg 79.73% 46.08% / 80%);
     backdrop-filter: blur(30px);
     color:white;
+}
+/*About us page*/
+.about-section{
+    background: hsl(202deg 79.73% 46.08% / 80%);
+    backdrop-filter: blur(30px);
+    color:white;
+    border-radius: 60px;
 }
