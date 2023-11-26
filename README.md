@@ -10,7 +10,7 @@ SEO Keywords Planner is a web application designed to provide keyword performanc
 ## Running the Application
 1. **Setup Environment**:
     - Ensure Python 3.9 is installed on your system.
-    - Install required Python libraries: Flask : `pip install Flask`, Pandas Dataframe: `pip install pandas`, Google Search Result: `pip install google-search-results`, Data Visualization: `pip install matplotlib`
+    - Install required Python libraries: `pip install Flask`, `pip install pandas`, `pip install google-search-results`, `pip install matplotlib`
       
 2. **Starting the App**:
     - Run the application using `py app.py` or `python app.py`.
