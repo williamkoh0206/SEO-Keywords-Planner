@@ -4,7 +4,7 @@
 SEO Keywords Planner is a web application designed to provide keyword performance visualizations. Business can use the web app for Search Engine Optimization SEO. It built from flask with serpApi.
 
 ## Data Collection and Processing
-- **Data Source for Demonstration**: The application utilizes the demo_json_data to display the demonstration of keyword "cityu". 
+- **Data Source for Demonstration**: The application utilizes the demo_json_data to display the demonstration. It use cityu keyword as the demo data
 - **Data Source for Live Search**: The application utilizes the serpi API to fetch real-time keyword performance data. 
 
 ## Running the Application
