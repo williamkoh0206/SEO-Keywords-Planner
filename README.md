@@ -17,7 +17,7 @@ SEO Keywords Planner is a web application designed to provide keyword performanc
     - Access the app in a web browser at `localhost:5000`.
 
 3. **Using the App**:
-    - Search "cityu" in the demo page to have a preview of how the web app runs
-    - Sign up for an account and log in for live search
+    - Search "cityu" in the demo page to have a preview of how the web app runs.
+    - Sign up for an account and log in for live search.
     - Search for keyword to view real-time data and visualizations.
     - Download the chart image for later reference.
