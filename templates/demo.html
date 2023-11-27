@@ -104,7 +104,19 @@
       </div>
       {% endif %} 
       {% if demo_data %}
-      <table id="searchResultsTable" class="table table-striped">
+        {% if demo_chart %}
+          <div class="mb-3 text-center">
+            <h4 class='keyword_result'>Chart Image</h4>
+            <img src = "{{demo_chart}}" />
+            <br>
+            <a class="btn btn-primary my-3 w-25" 
+            href="{{ demo_chart }}" 
+            download="cityu_{{ demo_type_dict.get(demo_type) }}.png">
+              Download
+          </a>
+          </div>
+          {% endif%}
+        <table id="searchResultsTable" class="table table-striped">
           <thead>
             <tr class="searchResultColumn">
               {% if demo_type == "GEO_MAP_0" %}
@@ -132,18 +144,6 @@
             {% endfor %}
           </tbody>
         </table>
-        {% if demo_chart %}
-        <div class="mb-3 text-center">
-          <h4 class='keyword_result'>Chart Image</h4>
-          <img src = "{{demo_chart}}" />
-          <br>
-          <a class="btn btn-primary my-3 w-25" 
-          href="{{ demo_chart }}" 
-          download="cityu_{{ demo_type_dict.get(demo_type) }}.png">
-            Download
-        </a>
-        </div>
-        {% endif%}
       {% endif %}
     {% elif demo_keyword and demo_keyword != 'cityu' and demo_keyword != 'Cityu' %}
       <div class="alert alert-warning" role="alert">

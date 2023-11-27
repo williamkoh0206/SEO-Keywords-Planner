@@ -244,6 +244,18 @@
         "type": "GEO_MAP_0",
         "keywords_data": "Yes",
         "image": "static/img/openai_region.png"
+      },
+      {
+        "keyword": "bigbang",
+        "type": "RELATED_QUERIES",
+        "keywords_data": "Yes",
+        "image": "static/img/bigbang_queries.png"
+      },
+      {
+        "keyword": "openai",
+        "type": "RELATED_QUERIES",
+        "keywords_data": "Yes",
+        "image": "static/img/openai_queries.png"
       }
     ]
   },
